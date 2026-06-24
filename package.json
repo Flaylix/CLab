@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node server.js",
     "build": "vite build",
-    "preview": "vite preview",
-    "start": "serve dist -s -l tcp://0.0.0.0:${PORT:-3000}"
+    "start": "node server.js"
   },
   "dependencies": {
-    "serve": "^14.2.4"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "vite": "^6.2.0"
