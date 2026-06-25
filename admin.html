@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<title>Tututumba — Admin CLab</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared.css" />
+</head>
+<body>
+<div class="wrap wrap-wide">
+  <div class="top">
+    <a href="/" class="brand"><span class="logo-mark"></span>CLab · Tututumba</a>
+    <a href="/" class="back">← Retour au site</a>
+  </div>
+
+  <section id="loginView" class="card" style="max-width:420px">
+    <p class="eyebrow">Espace admin</p>
+    <h1>Connexion</h1>
+    <p class="lead">Accès réservé au dashboard de statistiques.</p>
+    <div class="field">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn" id="loginBtn">Entrer</button>
+    <p class="err" id="loginErr" hidden></p>
+  </section>
+
+  <section id="dashView" hidden>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px">
+      <div>
+        <p class="eyebrow">Dashboard</p>
+        <h1>Vues du site</h1>
+      </div>
+      <button class="btn btn-ghost" id="logoutBtn">Déconnexion</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="lbl">Aujourd'hui</div><div class="val" id="statToday">—</div></div>
+      <div class="stat"><div class="lbl">Période</div><div class="val" id="statPeriod">—</div></div>
+      <div class="stat"><div class="lbl">Moyenne / jour</div><div class="val" id="statAvg">—</div></div>
+    </div>
+
+    <div class="card">
+      <div class="periods">
+        <button class="period on" data-days="7">7 jours</button>
+        <button class="period" data-days="30">30 jours</button>
+        <button class="period" data-days="365">1 an</button>
+      </div>
+      <div class="chart-wrap"><canvas id="viewsChart"></canvas></div>
+    </div>
+  </section>
+
+  <footer class="site-foot">
+    <a href="/mentions-legales">Mentions légales</a>
+    <a href="/politique-confidentialite">Politique de confidentialité</a>
+    <a href="/politique-cookies">Politique de cookies</a>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<script>
+let chart;
+let currentDays = 7;
+
+const loginView = document.getElementById('loginView');
+const dashView = document.getElementById('dashView');
+const loginErr = document.getElementById('loginErr');
+
+function fmt(n){return new Intl.NumberFormat('fr-FR').format(n)}
+function fmtDate(iso){
+  const d=new Date(iso+'T12:00:00');
+  return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+}
+
+async function api(url,opts={}){
+  const res=await fetch(url,{credentials:'same-origin',headers:{'Content-Type':'application/json',...opts.headers},...opts});
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok)throw new Error(data.error||'Erreur');
+  return data;
+}
+
+function renderChart(series){
+  const labels=series.map(r=>fmtDate(r.date));
+  const values=series.map(r=>r.views);
+  if(chart)chart.destroy();
+  chart=new Chart(document.getElementById('viewsChart'),{
+    type:'line',
+    data:{
+      labels,
+      datasets:[{
+        label:'Vues',
+        data:values,
+        borderColor:'#F3F2EE',
+        backgroundColor:'rgba(143,230,168,.12)',
+        pointBackgroundColor:'#8fe6a8',
+        pointBorderColor:'#8fe6a8',
+        pointRadius:currentDays>60?0:3,
+        tension:.35,
+        fill:true
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#8e9095',maxTicksLimit:currentDays>60?12:15},grid:{color:'rgba(255,255,255,.05)'}},
+        y:{beginAtZero:true,ticks:{color:'#8e9095',precision:0},grid:{color:'rgba(255,255,255,.05)'}}
+      }
+    }
+  });
+}
+
+async function loadStats(days=currentDays){
+  const data=await api(`/api/admin/stats?days=${days}`);
+  currentDays=days;
+  document.getElementById('statToday').textContent=fmt(data.today);
+  document.getElementById('statPeriod').textContent=fmt(data.total);
+  document.getElementById('statAvg').textContent=fmt(Math.round(data.total/days)||0);
+  renderChart(data.series);
+}
+
+async function checkSession(){
+  try{
+    await api('/api/admin/me');
+    loginView.hidden=true;
+    dashView.hidden=false;
+    await loadStats(7);
+  }catch{
+    loginView.hidden=false;
+    dashView.hidden=true;
+  }
+}
+
+document.getElementById('loginBtn').addEventListener('click',async()=>{
+  loginErr.hidden=true;
+  try{
+    await api('/api/admin/login',{method:'POST',body:JSON.stringify({password:document.getElementById('password').value})});
+    document.getElementById('password').value='';
+    await checkSession();
+  }catch(err){
+    loginErr.textContent=err.message;
+    loginErr.hidden=false;
+  }
+});
+
+document.getElementById('password').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginBtn').click()});
+
+document.getElementById('logoutBtn').addEventListener('click',async()=>{
+  await api('/api/admin/logout',{method:'POST'});
+  if(chart){chart.destroy();chart=null}
+  await checkSession();
+});
+
+document.querySelectorAll('.period').forEach(btn=>btn.addEventListener('click',async()=>{
+  document.querySelectorAll('.period').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  await loadStats(Number(btn.dataset.days));
+}));
+
+checkSession();
+</script>
+</body>
+</html>

@@ -8,4 +8,15 @@ export default defineConfig({
   preview: {
     port: 3000,
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        mentions: 'mentions-legales.html',
+        confidentialite: 'politique-confidentialite.html',
+        cookies: 'politique-cookies.html',
+        admin: 'admin.html',
+      },
+    },
+  },
 });
