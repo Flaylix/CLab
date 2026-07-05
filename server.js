@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { recordView, getStats } from './lib/analytics.js';
+import { logReservation, getReservations } from './lib/reservations.js';
 import {
   clearSessionCookie,
   createSession,
@@ -37,6 +38,13 @@ function toBrevoPhone(number) {
 }
 
 async function sendReservationSms(data) {
+  if (!BREVO_API_KEY) {
+    throw new Error('BREVO_API_KEY manquante');
+  }
+  if (BREVO_API_KEY.startsWith('xsmtpsib-')) {
+    throw new Error('Clé SMTP détectée — utilisez une clé API Brevo (xkeysib-...) pour les SMS');
+  }
+
   const { name, email, phone, project, budget, slot } = data;
   const content = [
     'CLab — Nouveau RDV',
@@ -112,13 +120,12 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
   res.json(getStats(days));
 });
 
-app.post('/api/reservation', async (req, res) => {
-  if (!BREVO_API_KEY) {
-    return res.status(503).json({
-      error: 'SMS non configuré. Définissez BREVO_API_KEY.',
-    });
-  }
+app.get('/api/admin/reservations', requireAdmin, (req, res) => {
+  const limit = Math.min(200, Math.max(1, Number(req.query.limit) || 50));
+  res.json(getReservations(limit));
+});
 
+app.post('/api/reservation', async (req, res) => {
   const { name, email, phone, project, budget, slot, message } = req.body || {};
 
   if (!name?.trim() || !email?.trim()) {
@@ -139,13 +146,25 @@ app.post('/api/reservation', async (req, res) => {
     message: message?.trim() || '',
   };
 
-  try {
-    await sendReservationSms(payload);
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('Reservation SMS failed:', err);
-    res.status(500).json({ error: "Impossible d'envoyer la demande. Réessayez dans un instant." });
+  let smsOk = false;
+  if (BREVO_API_KEY) {
+    try {
+      await sendReservationSms(payload);
+      smsOk = true;
+    } catch (err) {
+      console.error('Reservation SMS failed:', err.message);
+    }
+  } else {
+    console.warn('BREVO_API_KEY absente — réservation enregistrée sans SMS');
   }
+
+  try {
+    logReservation(payload, smsOk ? 'sent' : 'failed');
+  } catch (err) {
+    console.error('Reservation log failed:', err.message);
+  }
+
+  res.json({ ok: true, sms: smsOk });
 });
 
 if (isProd) {

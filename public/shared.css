@@ -64,5 +64,19 @@ h1{font-weight:300;font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-.02em;margin
 .admin-code-pop.shake{animation:shake .4s ease}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .login-compact{max-width:360px;margin:12vh auto 0}
+.dash-section{margin-top:32px}
+.dash-section h2{font-weight:400;font-size:1.35rem;margin-bottom:16px;letter-spacing:-.01em}
+.log-list{display:flex;flex-direction:column;gap:10px;max-height:480px;overflow-y:auto}
+.log-item{padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);backdrop-filter:blur(8px)}
+.log-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.log-top b{font-weight:500;font-size:.95rem}
+.log-date{font-family:var(--ff-mono);font-size:.66rem;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
+.log-meta{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.84rem;color:var(--muted);font-weight:300}
+.log-meta a{color:var(--text)}
+.log-msg{margin-top:10px;font-size:.84rem;color:var(--muted);font-weight:300;line-height:1.5}
+.log-badge{font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:100px;border:1px solid var(--line);color:var(--muted)}
+.log-badge.ok{color:var(--live);border-color:rgba(143,230,168,.35)}
+.log-badge.fail{color:#ff9b9b;border-color:rgba(255,155,155,.35)}
+.log-empty{color:var(--muted);font-weight:300;font-size:.92rem;text-align:center;padding:28px 12px}
 @media(max-width:720px){.stats{grid-template-columns:1fr}.chart-wrap{height:260px}}
 @media(prefers-reduced-motion:reduce){#vanta-bg{display:none}body{background:var(--bg)}}
