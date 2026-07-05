@@ -6,7 +6,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
 <link rel="apple-touch-icon" href="/favicon.png" />
-<title>Tututumba — Admin CLab</title>
+<title>Dashboard — CLab</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,21 +14,22 @@
 <link rel="stylesheet" href="/shared.css" />
 </head>
 <body>
+<div id="vanta-bg" aria-hidden="true"></div>
 <div class="wrap wrap-wide">
   <div class="top">
-    <a href="/" class="brand"><span class="logo-mark"></span>CLab · Tututumba</a>
+    <a href="/" class="brand"><span class="logo-mark"></span>CLab</a>
     <a href="/" class="back">← Retour au site</a>
   </div>
 
-  <section id="loginView" class="card" style="max-width:420px">
-    <p class="eyebrow">Espace admin</p>
-    <h1>Connexion</h1>
-    <p class="lead">Accès réservé au dashboard de statistiques.</p>
+  <section id="loginView" class="card login-compact">
+    <p class="eyebrow">Accès privé</p>
+    <h1>Code admin</h1>
+    <p class="lead">Entrez votre code pour accéder au dashboard.</p>
     <div class="field">
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+      <label for="password">Code</label>
+      <input type="password" id="password" placeholder="••••" autocomplete="off" />
     </div>
-    <button class="btn" id="loginBtn">Entrer</button>
+    <button class="btn" id="loginBtn">Accéder</button>
     <p class="err" id="loginErr" hidden></p>
   </section>
 
@@ -56,15 +57,12 @@
       <div class="chart-wrap"><canvas id="viewsChart"></canvas></div>
     </div>
   </section>
-
-  <footer class="site-foot">
-    <a href="/mentions-legales">Mentions légales</a>
-    <a href="/politique-confidentialite">Politique de confidentialité</a>
-    <a href="/politique-cookies">Politique de cookies</a>
-  </footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js"></script>
+<script src="/vanta-init.js"></script>
 <script>
 let chart;
 let currentDays = 7;

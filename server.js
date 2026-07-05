@@ -90,7 +90,7 @@ app.post('/api/admin/login', (req, res) => {
     return res.status(503).json({ error: 'ADMIN_PASSWORD non configuré sur le serveur.' });
   }
   if (req.body?.password !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Mot de passe incorrect.' });
+    return res.status(401).json({ error: 'Code incorrect.' });
   }
   const token = createSession();
   setSessionCookie(res, token);

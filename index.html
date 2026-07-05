@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
 <link rel="apple-touch-icon" href="/favicon.png" />
 <title>CLab — Sites, apps & agents IA sur mesure</title>
-<meta name="description" content="CLab — développeur indépendant à Lyon. Sites vitrine dès 300€, e-commerce et applications sur mesure, agents IA qui répondent à vos appels. Le rendu d'une agence, le prix d'un freelance." />
+<meta name="description" content="CLab — agence de création de sites internet indépendante près de Lyon. Sites vitrine dès 300€, e-commerce dès 990€, applications sur mesure et agents IA. Prix clairs, livré en une semaine." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -169,6 +169,16 @@ section{padding:100px 0}
 .proc-step p{color:var(--muted);font-size:.86rem;font-weight:300}
 
 .price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.price-block{margin-bottom:44px}
+.price-block-head{margin-bottom:20px}
+.price-block-head h3{font-weight:400;font-size:1.2rem;letter-spacing:-.01em}
+.price-block-head p{color:var(--muted);font-size:.9rem;font-weight:300;margin-top:8px}
+.ecom-inclus{margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft);font-size:.84rem;color:var(--muted);font-weight:300;line-height:1.55}
+.garanties{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+.garantie{padding:24px 18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);text-align:center}
+.garantie b{display:block;font-weight:500;font-size:.95rem;margin-bottom:6px}
+.garantie span{color:var(--muted);font-size:.84rem;font-weight:300;line-height:1.45}
+.price-note{text-align:center;margin-top:28px;color:var(--muted);font-weight:300;font-size:.92rem;max-width:52ch;margin-left:auto;margin-right:auto}
 
 .book-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
 .book-intro h2{font-weight:300;font-size:clamp(2rem,4vw,3rem);line-height:1.06;letter-spacing:-.025em}
@@ -230,6 +240,16 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
 .foot-legal a:hover{color:var(--text)}
 .admin-pill{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);opacity:.45;transition:.25s;margin-left:auto}
 .admin-pill:hover{opacity:1;color:var(--text)}
+.admin-gate{position:relative;display:inline-flex;align-items:center;margin-left:auto}
+.admin-dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted-2);font-size:1rem;line-height:1;cursor:pointer;transition:.25s;display:inline-flex;align-items:center;justify-content:center;font-family:var(--ff-mono)}
+.admin-dot:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.admin-code-pop{position:absolute;right:0;bottom:calc(100% + 8px);display:flex;align-items:center;gap:6px;padding:6px;border:1px solid var(--line);border-radius:100px;background:rgba(10,11,13,.92);backdrop-filter:blur(12px);box-shadow:0 12px 32px rgba(0,0,0,.45)}
+.admin-code-pop input{width:88px;background:transparent;border:none;color:var(--text);font-family:var(--ff-mono);font-size:.72rem;letter-spacing:.12em;padding:6px 10px;outline:none}
+.admin-code-pop input::placeholder{color:var(--muted-2);font-size:.72rem}
+.admin-code-go{width:28px;height:28px;border-radius:50%;border:none;background:var(--text);color:#000;font-size:.9rem;cursor:pointer;transition:.25s;flex:none}
+.admin-code-go:hover{transform:scale(1.05)}
+.admin-code-pop.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.in{opacity:1;transform:none}
@@ -240,7 +260,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
   .nav-right .btn-glass{display:none}
   .menu-toggle{display:flex}
   .nav-links.open{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:rgba(10,11,13,.96);border:1px solid var(--line);border-radius:18px;padding:14px;gap:4px}
+  .garanties{grid-template-columns:1fr 1fr}
   .svc-grid,.price-grid{grid-template-columns:1fr}
+  .price-grid .card[style*="grid-column"]{grid-column:span 1!important}
   .svc.feature{grid-column:span 1;grid-template-columns:1fr}
   .work-grid{grid-template-columns:1fr}
   .proc{grid-template-columns:1fr 1fr}
@@ -253,7 +275,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
   .hero{padding:70px 18px 100px;min-height:540px}
   section{padding:74px 0}
   .row2{grid-template-columns:1fr}
-  .proc{grid-template-columns:1fr}
+  .garanties{grid-template-columns:1fr}
   .float-cta{flex-direction:column;text-align:center;gap:12px}
   .node.keep{display:none}
 }
@@ -321,7 +343,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
     <div class="hero-content">
       <div class="badge"><span class="live"></span> Site vitrine dès 300€ · 2 places ce mois</div>
       <h1>Votre site,<br><span class="fade">sans payer le prix d'une agence.</span></h1>
-      <p class="sub">CLab — développeur indépendant à Lyon. Sites, e-commerce, applications et agents IA sur mesure. Même qualité qu'une agence, à une fraction du prix, parce que je code seul et augmenté à l'IA.</p>
+      <p class="sub">CLab — agence de création de sites internet indépendante, près de Lyon. Sites vitrine, e-commerce, applications et agents IA sur mesure. Le rendu d'une agence, le prix d'un indépendant.</p>
       <div class="hero-actions">
         <a href="#reservation" class="btn btn-white">Réserver un appel <span class="arr">→</span></a>
         <a href="#realisations" class="btn btn-glass">Voir mes réalisations</a>
@@ -365,7 +387,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
           <ul>
             <li>Réponse naturelle, en français, configurée pour votre métier</li>
             <li>Prise de rendez-vous et transferts intelligents</li>
-            <li>Résumé écrit de chaque appel par mail ou SMS</li>
+            <li>Résumé de chaque appel envoyé par SMS</li>
           </ul>
         </div>
         <div class="call">
@@ -474,68 +496,99 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
 
   <section id="tarifs" class="pad">
     <div class="sec-head reveal">
-      <span class="eyebrow">Tarifs cassés</span>
-      <h2>Le prix d'un freelance, le rendu d'une agence.</h2>
-      <p>Une agence facture souvent 1&nbsp;500€ et plus pour un simple site vitrine. Moi, je code seul et augmenté à l'IA — je vous fais profiter de la différence. Prix clairs, sans frais cachés.</p>
+      <span class="eyebrow">Grille tarifaire officielle</span>
+      <h2>Prix clairs, sans frais cachés.</h2>
+      <p>Agence indépendante près de Lyon — même qualité qu'une grande structure, à une fraction du prix. Hébergement et maintenance inclus dans l'abonnement à 30€/mois sur toutes les formules.</p>
     </div>
 
-    <div class="price-grid">
-      <div class="card svc reveal">
-        <span class="n">Le plus simple</span>
-        <h3>Site vitrine</h3>
-        <div class="price"><span class="big">300€</span><span class="s">à la création</span></div>
-        <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois — hébergement &amp; maintenance</span></div>
-        <p style="margin-top:14px;font-size:.82rem">Ailleurs : <s style="color:var(--muted-2)">1&nbsp;500€+</s></p>
-        <ul>
-          <li>Design 100% sur mesure, responsive</li>
-          <li>Formulaire de contact &amp; SEO de base</li>
-          <li>Modifications incluses dans l'abonnement</li>
-        </ul>
-        <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Je veux ce site <span class="arr">→</span></a>
+    <div class="price-block reveal">
+      <div class="price-block-head">
+        <h3>Sites vitrines</h3>
       </div>
+      <div class="price-grid">
+        <div class="card svc">
+          <span class="n">Vitrine</span>
+          <h3>Site vitrine sur mesure</h3>
+          <div class="price"><span class="big">300€</span><span class="s">à la création</span></div>
+          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
+          <ul>
+            <li>Design 100% sur mesure, responsive</li>
+            <li>Formulaire de contact &amp; SEO de base</li>
+            <li>Modifications incluses</li>
+          </ul>
+          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Je veux ce site <span class="arr">→</span></a>
+        </div>
 
-      <div class="card svc reveal" style="border-color:rgba(255,255,255,.22)">
-        <span class="flag">Le plus demandé</span>
-        <span class="n">Le plus complet pour démarrer</span>
-        <h3>Vitrine + Réservation</h3>
-        <div class="price"><span class="big">350€</span><span class="s">à la création</span></div>
-        <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois — hébergement &amp; maintenance</span></div>
-        <p style="margin-top:14px;font-size:.82rem">Ailleurs : <s style="color:var(--muted-2)">2&nbsp;500€+</s></p>
-        <ul>
-          <li>Tout le site vitrine</li>
-          <li>Système de réservation en ligne</li>
-          <li>Page dashboard admin pour tout gérer</li>
-        </ul>
-        <a href="#reservation" class="btn btn-white" style="margin-top:22px">Réserver un appel <span class="arr">→</span></a>
-      </div>
-
-      <div class="card svc reveal">
-        <span class="n">Pour vendre en ligne</span>
-        <h3>E-commerce sur mesure</h3>
-        <div class="price"><span class="big">Sur devis</span></div>
-        <ul>
-          <li>Boutique complète : catalogue, panier, paiement (CB / Stripe)</li>
-          <li>Page admin : produits, commandes, stocks</li>
-          <li>Tracking visiteurs &amp; statistiques de vente</li>
-        </ul>
-        <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Demander un devis <span class="arr">→</span></a>
-      </div>
-
-      <div class="card svc reveal">
-        <span class="n">Pour les pros</span>
-        <h3>Application web entreprise</h3>
-        <div class="price"><span class="big">Sur devis</span></div>
-        <p style="margin-top:6px;font-size:.9rem">Un outil métier taillé pour vous. Par exemple :</p>
-        <ul>
-          <li>CRM &amp; suivi clients · espace client</li>
-          <li>Prise de RDV · gestion de stock · facturation</li>
-          <li>Tableau de bord métier · plateforme SaaS</li>
-        </ul>
-        <a href="#reservation" class="btn btn-glass" style="margin-top:22px">En parler de vive voix <span class="arr">→</span></a>
+        <div class="card svc" style="border-color:rgba(255,255,255,.22)">
+          <span class="flag">Le plus demandé</span>
+          <span class="n">Vitrine + outils</span>
+          <h3>Vitrine + réservation + dashboard admin</h3>
+          <div class="price"><span class="big">350€</span><span class="s">à la création</span></div>
+          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
+          <ul>
+            <li>Tout le site vitrine sur mesure</li>
+            <li>Réservation en ligne intégrée</li>
+            <li>Dashboard admin pour tout gérer</li>
+          </ul>
+          <a href="#reservation" class="btn btn-white" style="margin-top:22px">Réserver un appel <span class="arr">→</span></a>
+        </div>
       </div>
     </div>
 
-    <p style="text-align:center;margin-top:32px;color:var(--muted);font-weight:300;font-size:.92rem">Agent IA téléphonique &amp; intégration IA disponibles en option sur n'importe quelle formule.</p>
+    <div class="price-block reveal">
+      <div class="price-block-head">
+        <h3>E-commerce</h3>
+        <p>Inclus sur toutes les boutiques : catalogue, panier, paiement CB/Stripe, page admin produits/commandes, tracking visiteurs.</p>
+      </div>
+      <div class="price-grid">
+        <div class="card svc">
+          <span class="n">Pour démarrer</span>
+          <h3>Petite boutique</h3>
+          <p style="color:var(--muted);font-size:.88rem;font-weight:300;margin-bottom:12px">Moins de 30 articles</p>
+          <div class="price"><span class="big">990€</span><span class="s">à la création</span></div>
+          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
+          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Lancer ma boutique <span class="arr">→</span></a>
+        </div>
+
+        <div class="card svc">
+          <span class="n">Pour scaler</span>
+          <h3>Boutique complète</h3>
+          <p style="color:var(--muted);font-size:.88rem;font-weight:300;margin-bottom:12px">Articles illimités</p>
+          <div class="price"><span class="big">1&nbsp;200€</span><span class="s">à la création</span></div>
+          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
+          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Demander un devis <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-block reveal">
+      <div class="price-block-head">
+        <h3>Applications &amp; outils métier</h3>
+        <p>CRM, espace client, gestion de stock, SaaS, tableau de bord — tout est codé sur mesure.</p>
+      </div>
+      <div class="price-grid">
+        <div class="card svc" style="grid-column:span 2">
+          <span class="n">Sur mesure</span>
+          <h3>Application web entreprise</h3>
+          <div class="price"><span class="big">Sur devis</span></div>
+          <ul>
+            <li>CRM &amp; suivi clients · espace client en ligne</li>
+            <li>Gestion de stock · prise de rendez-vous · facturation</li>
+            <li>Tableau de bord métier · plateforme SaaS</li>
+          </ul>
+          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">En parler de vive voix <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="price-note reveal">Agent IA téléphonique disponible <b>en option</b> sur toutes les formules — répond aux appels 24h/24, prend les rendez-vous et envoie un résumé par SMS.</p>
+
+    <div class="garanties reveal">
+      <div class="garantie"><b>Livré en une semaine</b><span>Délai court pour les sites vitrine et boutiques standard.</span></div>
+      <div class="garantie"><b>30€/mois tout inclus</b><span>Hébergement + maintenance sur chaque formule.</span></div>
+      <div class="garantie"><b>Modifications incluses</b><span>Vous demandez un changement, je le fais.</span></div>
+      <div class="garantie"><b>Sans frais cachés</b><span>Prix affichés = prix facturés.</span></div>
+    </div>
   </section>
 
   <section id="reservation" class="pad">
@@ -593,9 +646,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
     </div>
     <div class="faq reveal">
       <div class="q"><div class="q-head"><h4>Pourquoi c'est moins cher qu'une agence ?</h4><span class="plus">+</span></div><div class="q-body">Pas d'agence, pas d'intermédiaire, pas de gros frais de structure. Je travaille seul et je m'appuie sur l'IA pour aller plus vite. Vous payez le travail réel, pas les bureaux et les commerciaux. Même qualité, prix divisé.</div></div>
-      <div class="q"><div class="q-head"><h4>En combien de temps mon site est-il en ligne ?</h4><span class="plus">+</span></div><div class="q-body">Pour un site vitrine sur mesure, comptez en général 1 à 2 semaines après notre échange et la validation du design. Les applications et agents IA prennent plus de temps selon le périmètre.</div></div>
+      <div class="q"><div class="q-head"><h4>En combien de temps mon site est-il en ligne ?</h4><span class="plus">+</span></div><div class="q-body">Pour un site vitrine ou une petite boutique, comptez en général <b>une semaine</b> après notre échange et la validation du design. Les applications et agents IA prennent plus de temps selon le périmètre.</div></div>
       <div class="q"><div class="q-head"><h4>Que comprend l'abonnement à 30€/mois ?</h4><span class="plus">+</span></div><div class="q-body">L'hébergement, le nom de domaine, les mises à jour de sécurité et les petites modifications de contenu. Vous demandez un changement, je le fais — pas de surcoût caché.</div></div>
-      <div class="q"><div class="q-head"><h4>Concrètement, comment marche l'agent IA téléphonique ?</h4><span class="plus">+</span></div><div class="q-body">Un numéro dédié reçoit vos appels. L'agent répond avec votre voix de marque, donne les infos, prend les rendez-vous et vous envoie un résumé écrit de chaque appel. Vous restez joignable même quand vous ne pouvez pas décrocher.</div></div>
+      <div class="q"><div class="q-head"><h4>Concrètement, comment marche l'agent IA téléphonique ?</h4><span class="plus">+</span></div><div class="q-body">Un numéro dédié reçoit vos appels. L'agent répond avec votre voix de marque, donne les infos, prend les rendez-vous et vous envoie un résumé par SMS. Vous restez joignable même quand vous ne pouvez pas décrocher. Disponible en option sur toutes les formules.</div></div>
       <div class="q"><div class="q-head"><h4>Je peux faire évoluer mon site plus tard ?</h4><span class="plus">+</span></div><div class="q-body">Oui. Tout est codé sur mesure et pensé pour évoluer : on peut ajouter des pages, des fonctionnalités, du paiement ou de l'IA à tout moment.</div></div>
       <div class="q"><div class="q-head"><h4>Et si je ne sais pas encore exactement ce que je veux ?</h4><span class="plus">+</span></div><div class="q-body">C'est le but de l'appel. On part de votre activité et de vos clients, et je vous propose la solution la plus simple et efficace pour votre objectif.</div></div>
     </div>
@@ -605,11 +658,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
     <div class="foot-grid">
       <div>
         <div class="foot-brand">CLab</div>
-        <p class="foot-tag">Développeur indépendant. Sites, applications et agents IA sur mesure, depuis Lyon.</p>
+        <p class="foot-tag">Agence de création de sites internet indépendante, près de Lyon. Sites, e-commerce, applications et agents IA sur mesure.</p>
       </div>
       <div class="foot-col"><h5>Navigation</h5><a href="#services">Services</a><a href="#realisations">Réalisations</a><a href="#process">Méthode</a><a href="#tarifs">Tarifs</a><a href="#faq">FAQ</a></div>
       <div class="foot-col"><h5>Réalisations</h5><a href="https://locpro.digital" target="_blank" rel="noopener">LocPro</a><a href="https://crearoom.design" target="_blank" rel="noopener">Crea Room AI</a><a href="https://stalksecret.com" target="_blank" rel="noopener">StalkSecret</a></div>
-      <div class="foot-col"><h5>Contact</h5><a href="tel:+33637160713">06 37 16 07 13</a><a href="#reservation">Réserver un appel</a></div>
+      <div class="foot-col"><h5>Contact</h5><a href="tel:+33637160713">06 37 16 07 13</a><a href="https://clab.it.com" target="_blank" rel="noopener">clab.it.com</a><a href="#reservation">Réserver un appel</a></div>
     </div>
     <div class="foot-legal">
       <a href="/mentions-legales">Mentions légales</a>
@@ -619,7 +672,13 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
     <div class="foot-bottom">
       <span>© <span id="year"></span> CLab — Tous droits réservés</span>
       <span>Conçu &amp; codé main</span>
-      <a href="/admin" class="admin-pill">Tututumba</a>
+      <div class="admin-gate" id="adminGate">
+        <button type="button" class="admin-dot" id="adminOpen" aria-label="Code admin">·</button>
+        <div class="admin-code-pop" id="adminPop" hidden>
+          <input type="password" id="adminCode" placeholder="code" maxlength="32" autocomplete="off" />
+          <button type="button" class="admin-code-go" id="adminGo" aria-label="Entrer">→</button>
+        </div>
+      </div>
     </div>
   </footer>
 
@@ -701,6 +760,28 @@ function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt
   };
   window.addEventListener('load',initVanta);
   window.addEventListener('resize',()=>{clearTimeout(window._vantaT);window._vantaT=setTimeout(initVanta,200)});
+})();
+</script>
+<script>
+(function(){
+  const pop=document.getElementById('adminPop');
+  const input=document.getElementById('adminCode');
+  const open=()=>{pop.hidden=false;input.focus()};
+  const close=()=>{pop.hidden=true;input.value=''};
+  document.getElementById('adminOpen').addEventListener('click',e=>{e.stopPropagation();pop.hidden?open():close()});
+  document.addEventListener('click',e=>{if(!document.getElementById('adminGate').contains(e.target))close()});
+  async function go(){
+    try{
+      const res=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({password:input.value})});
+      if(!res.ok)throw 0;
+      location.href='/admin';
+    }catch{
+      pop.classList.remove('shake');void pop.offsetWidth;pop.classList.add('shake');
+      input.value='';
+    }
+  }
+  document.getElementById('adminGo').addEventListener('click',go);
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
 })();
 </script>
 <script src="/track.js"></script>
