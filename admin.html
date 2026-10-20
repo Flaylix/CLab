@@ -43,9 +43,11 @@
     </div>
 
     <div class="stats">
+      <div class="stat"><div class="lbl">MRR</div><div class="val" id="statMrr">—</div></div>
+      <div class="stat"><div class="lbl">Clients actifs</div><div class="val" id="statActive">—</div></div>
+      <div class="stat"><div class="lbl">Panier moyen</div><div class="val" id="statAvg">—</div></div>
       <div class="stat"><div class="lbl">Vues aujourd'hui</div><div class="val" id="statToday">—</div></div>
       <div class="stat"><div class="lbl">Vues période</div><div class="val" id="statPeriod">—</div></div>
-      <div class="stat"><div class="lbl">Réservations</div><div class="val" id="statReservations">—</div></div>
     </div>
 
     <div class="card">
@@ -55,6 +57,11 @@
         <button class="period" data-days="365">1 an</button>
       </div>
       <div class="chart-wrap"><canvas id="viewsChart"></canvas></div>
+    </div>
+
+    <div class="dash-section card">
+      <h2 style="margin-bottom:18px">Clients abonnements</h2>
+      <div class="log-list" id="clientList"></div>
     </div>
 
     <div class="dash-section card">
@@ -137,6 +144,45 @@ async function loadStats(days=currentDays){
   renderChart(data.series);
 }
 
+async function loadClients(){
+  const data=await api('/api/admin/clients');
+  document.getElementById('statMrr').textContent=fmt(data.mrr)+' €';
+  document.getElementById('statActive').textContent=fmt(data.activeCount);
+  document.getElementById('statAvg').textContent=fmt(data.avgBasket)+' €';
+  const list=document.getElementById('clientList');
+  const today=new Date();
+  if(!data.clients.length){
+    list.innerHTML='<p class="log-empty">Aucun client pour le moment.</p>';
+    return;
+  }
+  list.innerHTML=data.clients.map(c=>{
+    const deadline=c.deliveryDeadline?new Date(c.deliveryDeadline):null;
+    let countdown='—';
+    if(deadline && !c.deliveredAt && ['en_creation','paye','actif'].includes(c.status)){
+      const h=Math.max(0,Math.round((deadline-today)/3600000));
+      countdown=h+' h restantes';
+    }
+    const planEnd=c.planCommitmentEnd?new Date(c.planCommitmentEnd+'T12:00:00'):null;
+    const engWarn=planEnd && planEnd>today?'<span class="log-badge ok">Engagement formule jusqu’au '+planEnd.toLocaleDateString('fr-FR')+'</span>':'';
+    const stripe=c.stripeCustomerId?`<a href="https://dashboard.stripe.com/customers/${esc(c.stripeCustomerId)}" target="_blank" rel="noopener">Stripe</a>`:'';
+    return `<article class="log-item">
+      <div class="log-top"><b>${esc(c.companyName||c.email)}</b><span class="log-date">${esc(c.status)} · ${(c.monthlyTotal||0).toFixed(2)} €/mois</span></div>
+      <div class="log-meta">
+        ${engWarn}
+        <span>${esc(c.metier||'')}</span>
+        <span>72 h: ${countdown}</span>
+        ${stripe}
+        ${c.status==='en_creation'?`<button type="button" class="btn btn-ghost deliver-btn" data-id="${esc(c.id)}">Marquer livré</button>`:''}
+      </div>
+      <p class="log-msg">Options: ${(c.optionIds||[]).join(', ')||'—'}</p>
+    </article>`;
+  }).join('');
+  list.querySelectorAll('.deliver-btn').forEach(btn=>btn.addEventListener('click',async()=>{
+    await api('/api/admin/clients/'+btn.dataset.id+'/delivered',{method:'POST'});
+    await loadClients();
+  }));
+}
+
 async function loadReservations(){
   const data=await api('/api/admin/reservations?limit=50');
   document.getElementById('statReservations').textContent=fmt(data.total);
@@ -170,7 +216,7 @@ async function checkSession(){
     await api('/api/admin/me');
     loginView.hidden=true;
     dashView.hidden=false;
-    await Promise.all([loadStats(7),loadReservations()]);
+    await Promise.all([loadStats(7),loadReservations(),loadClients()]);
   }catch{
     loginView.hidden=false;
     dashView.hidden=true;

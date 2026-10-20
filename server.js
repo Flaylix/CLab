@@ -5,6 +5,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { recordView, getStats } from './lib/analytics.js';
 import { logReservation, getReservations } from './lib/reservations.js';
+import { registerAppRoutes } from './lib/register-routes.js';
+import { handleStripeWebhook } from './lib/stripe-webhook.js';
 import {
   clearSessionCookie,
   createSession,
@@ -25,11 +27,22 @@ const BREVO_SMS_RECIPIENT = process.env.BREVO_SMS_RECIPIENT || '33637160713';
 
 const PAGE_ROUTES = {
   '/': 'index.html',
+  '/tarifs': 'tarifs.html',
+  '/commander': 'commander.html',
+  '/cgv': 'cgv.html',
+  '/offre': 'offre.html',
+  '/espace-client': 'espace-client.html',
   '/mentions-legales': 'mentions-legales.html',
   '/politique-confidentialite': 'politique-confidentialite.html',
   '/politique-cookies': 'politique-cookies.html',
   '/admin': 'admin.html',
 };
+
+function resolvePage(url) {
+  if (PAGE_ROUTES[url]) return PAGE_ROUTES[url];
+  if (url.startsWith('/options/')) return 'option.html';
+  return null;
+}
 
 function toBrevoPhone(number) {
   let digits = String(number).replace(/\D/g, '');
@@ -81,7 +94,10 @@ async function sendReservationSms(data) {
 }
 
 const app = express();
-app.use(express.json({ limit: '32kb' }));
+
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
+
+app.use(express.json({ limit: '2mb' }));
 
 app.post('/api/view', (_req, res) => {
   try {
@@ -167,6 +183,8 @@ app.post('/api/reservation', async (req, res) => {
   res.json({ ok: true, sms: smsOk });
 });
 
+registerAppRoutes(app);
+
 if (isProd) {
   const dist = path.join(__dirname, 'dist');
   app.use(express.static(dist));
@@ -177,6 +195,9 @@ if (isProd) {
       res.sendFile(path.join(dist, file));
     });
   }
+  app.get('/options/:slug', (_req, res) => {
+    res.sendFile(path.join(dist, 'option.html'));
+  });
 } else {
   const { createServer } = await import('vite');
   const vite = await createServer({
@@ -189,7 +210,7 @@ if (isProd) {
     if (req.originalUrl.startsWith('/api/')) return next();
 
     const url = req.originalUrl.split('?')[0];
-    const file = PAGE_ROUTES[url];
+    const file = resolvePage(url);
     if (!file) return next();
 
     try {

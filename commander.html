@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Commander — CLab</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/shared.css" />
+<link rel="stylesheet" href="/clab.css" />
+<script src="/js/gtag.js" defer></script>
+</head>
+<body>
+<div id="vanta-bg" aria-hidden="true"></div>
+<div class="wrap wrap-wide shell-z">
+  <div class="top">
+    <a href="/" class="brand"><span class="logo-mark"></span>CLab</a>
+    <a href="/tarifs" class="back">← Modifier ma formule</a>
+  </div>
+
+  <div id="successView" class="card" hidden>
+    <h1>Merci pour votre commande</h1>
+    <p class="lead">Votre paiement est en cours de validation. Votre site sera livré sous 72 h après réception de toutes vos informations.</p>
+    <a href="/" class="btn btn-white">Retour à l'accueil</a>
+  </div>
+
+  <div id="flow">
+    <header class="card">
+      <p class="eyebrow">Tunnel de commande</p>
+      <h1>Composez votre abonnement</h1>
+      <div class="steps" id="stepNav"></div>
+    </header>
+
+    <div class="card" style="margin-top:16px">
+      <div class="step-panel" data-step="1">
+        <h2>Formule & options</h2>
+        <p class="lead muted" id="selSummary"></p>
+        <div id="upsellOpts" class="opt-group"></div>
+        <p class="price-xl">Total : <span id="stepTotal">—</span></p>
+        <button type="button" class="btn btn-white next">Continuer →</button>
+      </div>
+
+      <div class="step-panel" data-step="2" hidden>
+        <h2>Votre entreprise</h2>
+        <div class="field"><label>Nom de l'entreprise *</label><input id="companyName" required /></div>
+        <div class="field"><label>Métier / activité *</label><input id="metier" placeholder="Plombier, restaurant…" /></div>
+        <div class="field"><label>SIRET</label><input id="siret" /></div>
+        <div class="field"><label>Adresse</label><input id="address" /></div>
+        <div class="field"><label>Téléphone *</label><input id="phone" type="tel" /></div>
+        <div class="field"><label>E-mail *</label><input id="email" type="email" /></div>
+        <div class="field highlight-field"><label>Lien fiche Google Business</label><input id="googleBusinessUrl" placeholder="https://g.page/…" /></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button type="button" class="btn btn-glass prev">← Retour</button>
+          <button type="button" class="btn btn-white next">Continuer →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" data-step="3" hidden>
+        <h2>Votre futur site</h2>
+        <div class="field"><label>Services proposés</label><textarea id="services" rows="3"></textarea></div>
+        <div class="field"><label>Zone d'intervention</label><input id="zone" /></div>
+        <div class="field"><label>Couleurs / style souhaités</label><input id="colors" /></div>
+        <div class="field"><label>Sites que vous aimez (URLs)</label><textarea id="refs" rows="2"></textarea></div>
+        <div class="field"><label>Nom de domaine souhaité</label><input id="domain" placeholder="mon-activite.fr" /></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button type="button" class="btn btn-glass prev">← Retour</button>
+          <button type="button" class="btn btn-white next">Continuer →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" data-step="4" hidden>
+        <h2>Logo & photos</h2>
+        <p class="muted">Images uniquement (max 8 Mo par fichier).</p>
+        <input type="file" id="fileInput" accept="image/*" multiple />
+        <ul id="fileList" class="check-list"></ul>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button type="button" class="btn btn-glass prev">← Retour</button>
+          <button type="button" class="btn btn-white next">Continuer →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" data-step="5" hidden>
+        <h2>Récapitulatif</h2>
+        <div id="recapLines" class="opt-group"></div>
+        <p class="price-xl">Total mensuel : <span id="recapTotal">—</span></p>
+        <p class="muted" id="recapLegal"></p>
+        <label class="opt-row"><input type="checkbox" id="cgv" /> J'accepte les <a href="/cgv" target="_blank">CGV</a>, l'engagement de 12 mois sur la formule et de 3 mois sur les options, puis la reconduction mensuelle automatique.</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button type="button" class="btn btn-glass prev">← Retour</button>
+          <button type="button" class="btn btn-white" id="payBtn">Passer au paiement →</button>
+        </div>
+        <p class="err" id="payErr" hidden></p>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.highlight-field input { border-color: rgba(95,232,138,.45); }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: .82rem; color: var(--muted); margin-bottom: 6px; }
+.field input, .field textarea { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--ff); }
+.err { color: #f87171; margin-top: 12px; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js"></script>
+<script src="/vanta-init.js"></script>
+<script src="/js/configurator.js"></script>
+<script>
+const POPULAR = ['google-business', 'pack-avis', 'reservation', 'simulateur'];
+let pricing, state = { packId: null, optionIds: [], step: 1, orderId: null, files: [] };
+const q = new URLSearchParams(location.search);
+if (q.get('success') === '1') {
+  document.getElementById('flow').hidden = true;
+  document.getElementById('successView').hidden = false;
+  if (window.clabTrack) clabTrack('purchase', { value: Number(q.get('total') || 0) });
+}
+
+async function loadPricing() {
+  pricing = await fetch('/api/pricing').then(r => r.json());
+  const saved = sessionStorage.getItem('clabSelection');
+  if (q.get('pack')) state.packId = q.get('pack') || null;
+  if (q.get('options')) state.optionIds = q.get('options').split(',').filter(Boolean);
+  if (saved && !q.get('pack') && !q.get('options')) Object.assign(state, JSON.parse(saved));
+  renderStep1();
+  renderNav();
+  updateTotals();
+}
+
+function renderNav() {
+  const labels = ['Formule', 'Entreprise', 'Site', 'Fichiers', 'Récap'];
+  document.getElementById('stepNav').innerHTML = labels.map((l, i) =>
+    `<span class="step-dot ${state.step === i + 1 ? 'on' : ''}">${i + 1}. ${l}</span>`).join('');
+  document.querySelectorAll('.step-panel').forEach(p => {
+    p.hidden = Number(p.dataset.step) !== state.step;
+  });
+}
+
+function renderStep1() {
+  const pack = state.packId ? pricing.packs.find(p => p.id === state.packId) : null;
+  document.getElementById('selSummary').textContent = pack
+    ? `${pack.name} + options sélectionnées`
+    : `${pricing.base.name} + options à la carte`;
+  const upsell = document.getElementById('upsellOpts');
+  upsell.innerHTML = '<h3>Options populaires</h3>' + pricing.categories.flatMap(c => c.options)
+    .filter(o => POPULAR.includes(o.id))
+    .map(o => `<label class="opt-row"><input type="checkbox" value="${o.id}" ${state.optionIds.includes(o.id) ? 'checked' : ''}/> ${o.name} — ${ClabPricing.formatPrice(o.priceMonthly)} € ${pricing.legal.priceSuffix}</label>`).join('');
+  upsell.querySelectorAll('input').forEach(inp => inp.addEventListener('change', () => {
+    state.optionIds = [...upsell.querySelectorAll('input:checked')].map(i => i.value);
+    updateTotals();
+  }));
+}
+
+function updateTotals() {
+  const total = ClabPricing.computeTotal(pricing, state.packId, state.optionIds);
+  const sfx = ' € ' + pricing.legal.priceSuffix;
+  document.getElementById('stepTotal').textContent = ClabPricing.formatPrice(total) + sfx;
+  document.getElementById('recapTotal').textContent = ClabPricing.formatPrice(total) + sfx;
+  document.getElementById('recapLegal').textContent =
+    `${pricing.legal.vatNote} · 0 € de frais de création · Livraison ${pricing.legal.deliveryHours} h`;
+  const lines = [];
+  lines.push({ label: pricing.base.name, price: pricing.base.priceMonthly });
+  if (state.packId) {
+    const pack = pricing.packs.find(p => p.id === state.packId);
+    if (pack) lines.push({ label: pack.name + ' (pack)', price: pack.priceMonthly - pricing.base.priceMonthly });
+  }
+  const ids = new Set(state.optionIds);
+  if (state.packId) {
+    const pack = pricing.packs.find(p => p.id === state.packId);
+    pack?.optionIds.forEach(id => ids.delete(id));
+  }
+  pricing.categories.forEach(cat => cat.options.forEach(o => {
+    if (ids.has(o.id)) lines.push({ label: o.name, price: o.priceMonthly });
+  }));
+  document.getElementById('recapLines').innerHTML = lines.map(l =>
+    `<div class="opt-row"><span>${l.label}</span><b>${ClabPricing.formatPrice(l.price)} €</b></div>`).join('');
+  state.monthlyTotal = total;
+}
+
+document.querySelectorAll('.next').forEach(btn => btn.addEventListener('click', () => {
+  if (state.step === 2) {
+    if (!document.getElementById('companyName').value.trim() || !document.getElementById('email').value.trim()) {
+      alert('Nom d\'entreprise et e-mail requis.'); return;
+    }
+  }
+  state.step = Math.min(5, state.step + 1);
+  renderNav();
+  if (state.step === 5) updateTotals();
+}));
+document.querySelectorAll('.prev').forEach(btn => btn.addEventListener('click', () => {
+  state.step = Math.max(1, state.step - 1);
+  renderNav();
+}));
+
+document.getElementById('fileInput').addEventListener('change', e => {
+  state.pendingFiles = [...e.target.files];
+  document.getElementById('fileList').innerHTML = state.pendingFiles.map(f => `<li>${f.name}</li>`).join('');
+});
+
+document.getElementById('payBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('payErr');
+  errEl.hidden = true;
+  if (!document.getElementById('cgv').checked) {
+    errEl.textContent = 'Veuillez accepter les CGV et les engagements.';
+    errEl.hidden = false;
+    return;
+  }
+  const body = {
+    companyName: document.getElementById('companyName').value.trim(),
+    metier: document.getElementById('metier').value.trim(),
+    siret: document.getElementById('siret').value.trim(),
+    address: document.getElementById('address').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    googleBusinessUrl: document.getElementById('googleBusinessUrl').value.trim(),
+    packId: state.packId,
+    optionIds: state.optionIds,
+    monthlyTotal: state.monthlyTotal,
+    cgvAccepted: true,
+    siteBrief: {
+      services: document.getElementById('services').value.trim(),
+      zone: document.getElementById('zone').value.trim(),
+      colors: document.getElementById('colors').value.trim(),
+      refs: document.getElementById('refs').value.trim(),
+      domain: document.getElementById('domain').value.trim(),
+    },
+  };
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  try {
+    const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erreur');
+    state.orderId = data.orderId;
+    if (state.pendingFiles?.length) {
+      const fd = new FormData();
+      state.pendingFiles.forEach(f => fd.append('files', f));
+      await fetch('/api/orders/' + state.orderId + '/files', { method: 'POST', body: fd });
+    }
+    if (data.checkoutUrl) {
+      if (window.clabTrack) clabTrack('begin_checkout', { value: state.monthlyTotal });
+      location.href = data.checkoutUrl;
+    } else {
+      errEl.textContent = 'Paiement Stripe non configuré — commande enregistrée (#' + state.orderId + '). Nous vous recontactons.';
+      errEl.hidden = false;
+    }
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.hidden = false;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+loadPricing();
+</script>
+</body>
+</html>

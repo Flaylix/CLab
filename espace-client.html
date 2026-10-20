@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Espace client — CLab</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/shared.css" />
+<link rel="stylesheet" href="/clab.css" />
+</head>
+<body>
+<div id="vanta-bg" aria-hidden="true"></div>
+<div class="wrap wrap-wide shell-z">
+  <div class="top"><a href="/" class="brand"><span class="logo-mark"></span>CLab</a></div>
+  <section class="card">
+    <h1>Espace client</h1>
+    <p class="lead muted">Consultez votre abonnement et ajoutez des options en un clic.</p>
+    <div class="field"><label>E-mail de commande</label><input type="email" id="loginEmail" /></div>
+    <button class="btn btn-white" id="loadBtn">Accéder</button>
+    <p class="err" id="err" hidden></p>
+  </section>
+  <section class="card" id="dash" hidden style="margin-top:16px">
+    <h2 id="hello"></h2>
+    <p>Formule : <b id="planName"></b> · <span id="monthly"></span></p>
+    <p>Statut : <span id="status"></span></p>
+    <h3 style="margin-top:24px">Options actives</h3>
+    <ul class="check-list" id="optList"></ul>
+    <h3 style="margin-top:24px">Recommandé pour vous</h3>
+    <div id="upsell"></div>
+  </section>
+</div>
+<script>
+let pricing;
+fetch('/api/pricing').then(r => r.json()).then(p => { pricing = p; });
+
+document.getElementById('loadBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const err = document.getElementById('err');
+  err.hidden = true;
+  try {
+    const res = await fetch('/api/client/me?email=' + encodeURIComponent(email));
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    const c = data.client;
+    document.getElementById('dash').hidden = false;
+    document.getElementById('hello').textContent = c.companyName || 'Votre compte';
+    document.getElementById('planName').textContent = c.packId
+      ? (pricing.packs.find(p => p.id === c.packId)?.name || c.packId)
+      : pricing.base.name;
+    document.getElementById('monthly').textContent = (c.monthlyTotal || 0).toFixed(2).replace('.', ',') + ' € HT/mois';
+    document.getElementById('status').textContent = c.status;
+    const ids = c.optionIds || [];
+    document.getElementById('optList').innerHTML = ids.length
+      ? ids.map(id => {
+          const o = pricing.categories.flatMap(cat => cat.options).find(x => x.id === id);
+          return `<li>${o?.name || id}</li>`;
+        }).join('')
+      : '<li>Aucune option supplémentaire</li>';
+    const metier = (c.metier || '').toLowerCase();
+    let rec = pricing.metierUpsells?.default || [];
+    if (metier.includes('restaurant')) rec = pricing.metierUpsells?.restaurant || rec;
+    else if (metier.includes('artisan') || metier.includes('plomb') || metier.includes('électric')) rec = pricing.metierUpsells?.artisan || rec;
+    else if (metier.includes('commerce') || metier.includes('boutique')) rec = pricing.metierUpsells?.commerce || rec;
+    rec = rec.filter(id => !ids.includes(id)).slice(0, 3);
+    document.getElementById('upsell').innerHTML = rec.map(id => {
+      const o = pricing.categories.flatMap(cat => cat.options).find(x => x.id === id);
+      if (!o) return '';
+      return `<div class="opt-row"><span><b>${o.name}</b> — ${o.priceMonthly} € HT/mois</span>
+        <button class="btn btn-glass add-opt" data-id="${id}" data-email="${email}">Ajouter</button></div>`;
+    }).join('');
+    document.querySelectorAll('.add-opt').forEach(btn => btn.addEventListener('click', async () => {
+      const r = await fetch('/api/client/add-option', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: btn.dataset.email, optionId: btn.dataset.id }),
+      });
+      const j = await r.json();
+      alert(r.ok ? 'Option ajoutée — prorata sur votre prochaine facture.' : (j.error || 'Erreur'));
+      document.getElementById('loadBtn').click();
+    }));
+  } catch (e) {
+    err.textContent = e.message;
+    err.hidden = false;
+  }
+});
+</script>
+<style>.err{color:#f87171;margin-top:12px}.field{margin-bottom:14px}.field input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text)}</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js"></script>
+<script src="/vanta-init.js"></script>
+</body>
+</html>

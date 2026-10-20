@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tarifs — CLab | Abonnement site pro dès 34,90 € HT/mois</title>
+<meta name="description" content="Tarifs CLab : formule Essentiel 34,90 € HT/mois, packs et options. 0 € de frais de création, site livré en 72 h. TVA non applicable, art. 293 B du CGI." />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/shared.css" />
+<link rel="stylesheet" href="/clab.css" />
+<script src="/js/gtag.js" defer></script>
+</head>
+<body>
+<div id="vanta-bg" aria-hidden="true"></div>
+<div class="wrap wrap-wide shell-z">
+  <div class="top">
+    <a href="/" class="brand"><span class="logo-mark"></span>CLab</a>
+    <a href="/commander" class="btn btn-white">Composer mon site</a>
+  </div>
+
+  <header class="card reveal-block">
+    <p class="eyebrow">Abonnement mensuel · 0 € de création</p>
+    <h1>Tarifs transparents, tout inclus</h1>
+    <p class="lead" id="vatNote"></p>
+  </header>
+
+  <section class="card reveal-block" style="margin-top:20px">
+    <h2 id="baseName"></h2>
+    <p class="price-xl"><span id="basePrice"></span> <span class="muted" id="priceSuffix"></span></p>
+    <ul class="check-list" id="baseIncludes"></ul>
+  </section>
+
+  <section class="reveal-block" style="margin-top:28px">
+    <h2 class="sec-title">Packs tout-en-un</h2>
+    <div class="pack-grid" id="packGrid"></div>
+  </section>
+
+  <section class="card reveal-block" style="margin-top:28px">
+    <h2 class="sec-title">Configurateur</h2>
+    <p class="lead">Cochez vos options — le total se met à jour en direct.</p>
+    <div id="packPick" class="pack-pick"></div>
+    <div id="optionGroups"></div>
+    <div class="total-bar">
+      <div>
+        <span class="muted">Total mensuel</span>
+        <div class="price-xl" id="totalPrice">—</div>
+        <p class="hint" id="packHint"></p>
+      </div>
+      <a href="/commander" class="btn btn-white" id="goCommander">Continuer ma commande →</a>
+    </div>
+  </section>
+
+  <section id="optionsCatalog" class="reveal-block" style="margin-top:28px"></section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js"></script>
+<script src="/vanta-init.js"></script>
+<script src="/js/configurator.js"></script>
+<script>
+let pricing, state = { packId: null, optionIds: [] };
+
+async function init() {
+  pricing = await fetch('/api/pricing').then(r => r.json());
+  document.getElementById('vatNote').textContent =
+    pricing.legal.vatFranchise ? pricing.legal.vatNote + ' · Livraison sous ' + pricing.legal.deliveryHours + ' h · Engagement ' + pricing.legal.baseCommitmentMonths + ' mois puis reconduction mensuelle.' : '';
+  document.getElementById('baseName').textContent = pricing.base.name;
+  document.getElementById('basePrice').textContent = ClabPricing.formatPrice(pricing.base.priceMonthly) + ' €';
+  document.getElementById('priceSuffix').textContent = pricing.legal.priceSuffix;
+  document.getElementById('baseIncludes').innerHTML = pricing.base.includes.map(i => `<li>${i}</li>`).join('');
+
+  document.getElementById('packGrid').innerHTML = pricing.packs.map(p => `
+    <article class="card pack-card ${p.badge ? 'featured' : ''}">
+      ${p.badge ? `<span class="flag">${p.badge}</span>` : ''}
+      <h3>${p.name}</h3>
+      <p class="muted">${p.description}</p>
+      <p class="price-xl">${ClabPricing.formatPrice(p.priceMonthly)} € <span class="muted">${pricing.legal.priceSuffix}</span></p>
+      <p class="strike">${ClabPricing.formatPrice(p.retailSum)} €</p>
+      <p class="save">Économie ${ClabPricing.formatPrice(p.savings)} €/mois</p>
+      <button type="button" class="btn btn-glass pack-btn" data-pack="${p.id}">Choisir ce pack</button>
+    </article>
+  `).join('');
+
+  document.getElementById('packPick').innerHTML = `<button type="button" class="chip on" data-pack="">Essentiel seul</button>` +
+    pricing.packs.map(p => `<button type="button" class="chip" data-pack="${p.id}">${p.name}</button>`).join('');
+
+  document.getElementById('optionGroups').innerHTML = pricing.categories.map(cat => `
+    <div class="opt-group"><h3>${cat.label}</h3>
+    ${cat.options.map(o => `
+      <label class="opt-row"><input type="checkbox" value="${o.id}" /> <span><b>${o.name}</b> — ${ClabPricing.formatPrice(o.priceMonthly)} € ${pricing.legal.priceSuffix}</span>
+      ${o.note ? `<small>${o.note}</small>` : ''}</label>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('optionsCatalog').innerHTML = pricing.categories.map(cat => `
+    <h2 class="sec-title">${cat.label}</h2>
+    <div class="opt-links">${cat.options.map(o => `<a href="/options/${o.slug}">${o.name}</a>`).join(' · ')}</div>`).join('');
+
+  document.querySelectorAll('.pack-btn, .pack-pick .chip').forEach(el => el.addEventListener('click', () => setPack(el.dataset.pack || null)));
+  document.querySelectorAll('#optionGroups input').forEach(inp => inp.addEventListener('change', refresh));
+  document.querySelectorAll('.pack-btn').forEach(btn => btn.addEventListener('click', () => setPack(btn.dataset.pack)));
+  refresh();
+
+  const q = new URLSearchParams(location.search);
+  if (q.get('pack')) setPack(q.get('pack'));
+  (q.get('options') || '').split(',').filter(Boolean).forEach(id => {
+    const inp = document.querySelector(`#optionGroups input[value="${id}"]`);
+    if (inp) inp.checked = true;
+  });
+  refresh();
+}
+
+function setPack(id) {
+  state.packId = id || null;
+  document.querySelectorAll('.pack-pick .chip').forEach(c => c.classList.toggle('on', c.dataset.pack === (id || '')));
+  if (id) {
+    const pack = pricing.packs.find(p => p.id === id);
+    if (pack) {
+      document.querySelectorAll('#optionGroups input').forEach(inp => {
+        inp.checked = pack.optionIds.includes(inp.value);
+      });
+    }
+  }
+  refresh();
+}
+
+function refresh() {
+  state.optionIds = [...document.querySelectorAll('#optionGroups input:checked')].map(i => i.value);
+  const total = ClabPricing.computeTotal(pricing, state.packId, state.optionIds);
+  document.getElementById('totalPrice').textContent = ClabPricing.formatPrice(total) + ' € ' + pricing.legal.priceSuffix;
+  const hint = ClabPricing.suggestPack(pricing, state.packId, state.optionIds);
+  document.getElementById('packHint').textContent = hint
+    ? `Astuce : prenez le ${hint.pack.name} et économisez ${ClabPricing.formatPrice(hint.savings)} €/mois.`
+    : '';
+  const params = new URLSearchParams();
+  if (state.packId) params.set('pack', state.packId);
+  if (state.optionIds.length) params.set('options', state.optionIds.join(','));
+  params.set('total', total);
+  document.getElementById('goCommander').href = '/commander?' + params.toString();
+  sessionStorage.setItem('clabSelection', JSON.stringify({ packId: state.packId, optionIds: state.optionIds, monthlyTotal: total }));
+}
+
+init();
+</script>
+</body>
+</html>

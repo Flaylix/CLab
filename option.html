@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Option — CLab</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/shared.css" />
+<link rel="stylesheet" href="/clab.css" />
+</head>
+<body>
+<div id="vanta-bg" aria-hidden="true"></div>
+<div class="wrap wrap-wide shell-z">
+  <div class="top">
+    <a href="/" class="brand"><span class="logo-mark"></span>CLab</a>
+    <a href="/tarifs" class="back">← Tous les tarifs</a>
+  </div>
+  <article class="card" id="content">
+    <p class="muted">Chargement…</p>
+  </article>
+</div>
+<script>
+const slug = location.pathname.replace(/^\/options\//, '').replace(/\/$/, '');
+fetch('/api/pricing').then(r => r.json()).then(p => {
+  const opt = p.categories.flatMap(c => c.options.map(o => ({ ...o, cat: c.label }))).find(o => o.slug === slug);
+  const el = document.getElementById('content');
+  if (!opt) {
+    el.innerHTML = '<h1>Option introuvable</h1><a href="/tarifs">Retour aux tarifs</a>';
+    return;
+  }
+  document.title = (opt.seoTitle || opt.name) + ' — CLab';
+  const meta = document.createElement('meta');
+  meta.name = 'description';
+  meta.content = opt.name + ' pour votre site CLab — ' + opt.priceMonthly + ' € HT/mois. Ajoutez cette option à votre abonnement.';
+  document.head.appendChild(meta);
+  el.innerHTML = `
+    <p class="eyebrow">${opt.cat}</p>
+    <h1>${opt.name}</h1>
+    <p class="price-xl">${opt.priceMonthly.toFixed(2).replace('.', ',')} € <span class="muted">${p.legal.priceSuffix}</span></p>
+    ${opt.note ? `<p class="lead">${opt.note}</p>` : ''}
+    <p class="muted">Engagement minimum 3 mois sur cette option, puis résiliation avec 1 mois de préavis. ${p.legal.vatNote}</p>
+    <a href="/commander?options=${opt.id}" class="btn btn-white" style="margin-top:24px;display:inline-flex">Ajouter à mon abonnement →</a>
+  `;
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js"></script>
+<script src="/vanta-init.js"></script>
+</body>
+</html>

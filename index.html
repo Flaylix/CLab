@@ -6,8 +6,9 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
 <link rel="apple-touch-icon" href="/favicon.png" />
-<title>CLab — Sites, apps & agents IA sur mesure</title>
-<meta name="description" content="CLab — agence de création de sites internet indépendante près de Lyon. Sites vitrine dès 300€, e-commerce dès 990€, applications sur mesure et agents IA. Prix clairs, livré en une semaine." />
+<title>CLab — Site pro pour artisans & commerçants dès 34,90 € HT/mois</title>
+<meta name="description" content="CLab — votre site vitrine professionnel livré en 72 h, dès 34,90 € HT/mois tout inclus. 0 € de frais de création. Abonnement pour artisans, restaurants et PME près de Lyon." />
+<script src="/js/gtag.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -16,7 +17,7 @@
    "Constellation" — DA atmosphérique, noir profond, lumière diffuse
    ============================================================ */
 :root{
-  --bg:#040405;
+  --bg:#0c0c0d;
   --card:#0b0c0e;
   --card-2:#101113;
   --surface:#15171a;
@@ -25,7 +26,7 @@
   --muted-2:#5b5d62;
   --line:rgba(255,255,255,.085);
   --line-soft:rgba(255,255,255,.05);
-  --live:#8fe6a8;
+  --live:#5fe88a;
 
   --ff:"Hanken Grotesk",system-ui,sans-serif;
   --ff-mono:"JetBrains Mono",monospace;
@@ -300,12 +301,12 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
         <a href="#services">Services</a>
         <a href="#realisations">Réalisations</a>
         <a href="#process">Méthode</a>
-        <a href="#tarifs">Tarifs</a>
+        <a href="/tarifs">Tarifs</a>
         <a href="#faq">FAQ</a>
       </div>
       <div class="nav-right">
-        <a href="#realisations" class="btn btn-glass">Mon travail</a>
-        <a href="#reservation" class="btn btn-white">Réserver un appel <span class="arr">→</span></a>
+        <a href="tel:+33637160713" class="btn btn-glass">Appeler</a>
+        <a href="/commander" class="btn btn-white">Composer mon site <span class="arr">→</span></a>
         <button class="menu-toggle" id="menuToggle" aria-label="Menu">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
@@ -341,12 +342,12 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
     </div>
 
     <div class="hero-content">
-      <div class="badge"><span class="live"></span> Site vitrine dès 300€ · 2 places ce mois</div>
-      <h1>Votre site,<br><span class="fade">sans payer le prix d'une agence.</span></h1>
-      <p class="sub">CLab — agence de création de sites internet indépendante, près de Lyon. Sites vitrine, e-commerce, applications et agents IA sur mesure. Le rendu d'une agence, le prix d'un indépendant.</p>
+      <div class="badge"><span class="live"></span> 0 € de frais de création · livraison 72 h</div>
+      <h1>Votre site pro en 72 h<br><span class="fade">dès 34,90 € HT/mois, tout inclus.</span></h1>
+      <p class="sub">CLab accompagne artisans, commerçants, restaurants et petites entreprises : site sur mesure, domaine, hébergement, maintenance et formulaires intelligents — en abonnement mensuel, sans paiement unique.</p>
       <div class="hero-actions">
-        <a href="#reservation" class="btn btn-white">Réserver un appel <span class="arr">→</span></a>
-        <a href="#realisations" class="btn btn-glass">Voir mes réalisations</a>
+        <a href="/commander" class="btn btn-white">Composer mon site <span class="arr">→</span></a>
+        <a href="tel:+33637160713" class="btn btn-glass">Appeler</a>
       </div>
     </div>
 
@@ -359,7 +360,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
   <div class="float-cta pad">
     <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
     <div class="copy"><b>Décrivez votre projet.</b> <span>Dites-moi ce dont vous avez besoin, je vous réponds sous 24h.</span></div>
-    <a href="#reservation" class="btn btn-white">Commencer <span class="arr">→</span></a>
+    <a href="/commander" class="btn btn-white">Composer mon site <span class="arr">→</span></a>
   </div>
 
   <div class="cloud">
@@ -490,104 +491,38 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
       <div class="card proc-step reveal"><span class="n">01</span><h4>Échange</h4><p>Un appel pour comprendre votre activité, vos clients et ce dont vous avez vraiment besoin.</p></div>
       <div class="card proc-step reveal"><span class="n">02</span><h4>Conception</h4><p>Je définis l'identité, la structure et les fonctionnalités. Vous validez avant qu'une ligne soit écrite.</p></div>
       <div class="card proc-step reveal"><span class="n">03</span><h4>Développement</h4><p>Je code le tout sur mesure, avec l'IA intégrée si elle a du sens, et je vous tiens au courant.</p></div>
-      <div class="card proc-step reveal"><span class="n">04</span><h4>Lancement &amp; suivi</h4><p>Mise en ligne, hébergement et maintenance. Vous demandez une modif, je la fais.</p></div>
+      <div class="card proc-step reveal"><span class="n">04</span><h4>Lancement &amp; suivi</h4><p>Mise en ligne sous 72 h, abonnement mensuel : hébergement, domaine et maintenance inclus.</p></div>
     </div>
   </section>
 
   <section id="tarifs" class="pad">
     <div class="sec-head reveal">
-      <span class="eyebrow">Grille tarifaire officielle</span>
-      <h2>Prix clairs, sans frais cachés.</h2>
-      <p>Agence indépendante près de Lyon — même qualité qu'une grande structure, à une fraction du prix. Hébergement et maintenance inclus dans l'abonnement à 30€/mois sur toutes les formules.</p>
+      <span class="eyebrow">Abonnement CLab Essentiel</span>
+      <h2>34,90 € HT/mois — tout ce qu'il faut pour être visible.</h2>
+      <p>TVA non applicable, art. 293 B du CGI · Engagement 12 mois puis reconduction mensuelle · Options ajoutables à tout moment.</p>
     </div>
 
-    <div class="price-block reveal">
-      <div class="price-block-head">
-        <h3>Sites vitrines</h3>
-      </div>
-      <div class="price-grid">
-        <div class="card svc">
-          <span class="n">Vitrine</span>
-          <h3>Site vitrine sur mesure</h3>
-          <div class="price"><span class="big">300€</span><span class="s">à la création</span></div>
-          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
-          <ul>
-            <li>Design 100% sur mesure, responsive</li>
-            <li>Formulaire de contact &amp; SEO de base</li>
-            <li>Modifications incluses</li>
-          </ul>
-          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Je veux ce site <span class="arr">→</span></a>
-        </div>
-
-        <div class="card svc" style="border-color:rgba(255,255,255,.22)">
-          <span class="flag">Le plus demandé</span>
-          <span class="n">Vitrine + outils</span>
-          <h3>Vitrine + réservation + dashboard admin</h3>
-          <div class="price"><span class="big">350€</span><span class="s">à la création</span></div>
-          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
-          <ul>
-            <li>Tout le site vitrine sur mesure</li>
-            <li>Réservation en ligne intégrée</li>
-            <li>Dashboard admin pour tout gérer</li>
-          </ul>
-          <a href="#reservation" class="btn btn-white" style="margin-top:22px">Réserver un appel <span class="arr">→</span></a>
-        </div>
+    <div class="price-grid reveal">
+      <div class="card svc" style="grid-column:span 2">
+        <span class="flag">Formule de base</span>
+        <h3>CLab Essentiel</h3>
+        <div class="price"><span class="big">34,90 €</span><span class="s">HT/mois</span></div>
+        <ul>
+          <li>Site vitrine sur mesure (5 pages), mobile-first</li>
+          <li>Domaine .fr ou .com, hébergement, SSL, sauvegardes</li>
+          <li>Formulaires avec e-mails auto (pro + client)</li>
+          <li>Google Business, Maps, SEO de base, 1 modif/mois</li>
+        </ul>
+        <a href="/tarifs" class="btn btn-glass" style="margin-top:22px">Voir packs & options <span class="arr">→</span></a>
+        <a href="/commander" class="btn btn-white" style="margin-top:12px">Composer mon site <span class="arr">→</span></a>
       </div>
     </div>
-
-    <div class="price-block reveal">
-      <div class="price-block-head">
-        <h3>E-commerce</h3>
-        <p>Inclus sur toutes les boutiques : catalogue, panier, paiement CB/Stripe, page admin produits/commandes, tracking visiteurs.</p>
-      </div>
-      <div class="price-grid">
-        <div class="card svc">
-          <span class="n">Pour démarrer</span>
-          <h3>Petite boutique</h3>
-          <p style="color:var(--muted);font-size:.88rem;font-weight:300;margin-bottom:12px">Moins de 30 articles</p>
-          <div class="price"><span class="big">990€</span><span class="s">à la création</span></div>
-          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
-          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Lancer ma boutique <span class="arr">→</span></a>
-        </div>
-
-        <div class="card svc">
-          <span class="n">Pour scaler</span>
-          <h3>Boutique complète</h3>
-          <p style="color:var(--muted);font-size:.88rem;font-weight:300;margin-bottom:12px">Articles illimités</p>
-          <div class="price"><span class="big">1&nbsp;200€</span><span class="s">à la création</span></div>
-          <div class="price" style="margin-top:4px"><span class="big" style="font-size:1.4rem">+ 30€</span><span class="s">/ mois</span></div>
-          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">Demander un devis <span class="arr">→</span></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="price-block reveal">
-      <div class="price-block-head">
-        <h3>Applications &amp; outils métier</h3>
-        <p>CRM, espace client, gestion de stock, SaaS, tableau de bord — tout est codé sur mesure.</p>
-      </div>
-      <div class="price-grid">
-        <div class="card svc" style="grid-column:span 2">
-          <span class="n">Sur mesure</span>
-          <h3>Application web entreprise</h3>
-          <div class="price"><span class="big">Sur devis</span></div>
-          <ul>
-            <li>CRM &amp; suivi clients · espace client en ligne</li>
-            <li>Gestion de stock · prise de rendez-vous · facturation</li>
-            <li>Tableau de bord métier · plateforme SaaS</li>
-          </ul>
-          <a href="#reservation" class="btn btn-glass" style="margin-top:22px">En parler de vive voix <span class="arr">→</span></a>
-        </div>
-      </div>
-    </div>
-
-    <p class="price-note reveal">Agent IA téléphonique disponible <b>en option</b> sur toutes les formules — répond aux appels 24h/24, prend les rendez-vous et envoie un résumé par SMS.</p>
 
     <div class="garanties reveal">
-      <div class="garantie"><b>Livré en une semaine</b><span>Délai court pour les sites vitrine et boutiques standard.</span></div>
-      <div class="garantie"><b>30€/mois tout inclus</b><span>Hébergement + maintenance sur chaque formule.</span></div>
-      <div class="garantie"><b>Modifications incluses</b><span>Vous demandez un changement, je le fais.</span></div>
-      <div class="garantie"><b>Sans frais cachés</b><span>Prix affichés = prix facturés.</span></div>
+      <div class="garantie"><b>Livré en 72 h</b><span>Après réception de toutes vos informations.</span></div>
+      <div class="garantie"><b>0 € de création</b><span>Uniquement l'abonnement mensuel.</span></div>
+      <div class="garantie"><b>Packs & options</b><span>Visibilité, restaurant, artisan pro, croissance…</span></div>
+      <div class="garantie"><b>Support humain</b><span>E-mail et téléphone, sans intermédiaire.</span></div>
     </div>
   </section>
 
@@ -645,12 +580,12 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
       <h2>Tout ce qu'on me demande avant de démarrer.</h2>
     </div>
     <div class="faq reveal">
-      <div class="q"><div class="q-head"><h4>Pourquoi c'est moins cher qu'une agence ?</h4><span class="plus">+</span></div><div class="q-body">Pas d'agence, pas d'intermédiaire, pas de gros frais de structure. Je travaille seul et je m'appuie sur l'IA pour aller plus vite. Vous payez le travail réel, pas les bureaux et les commerciaux. Même qualité, prix divisé.</div></div>
-      <div class="q"><div class="q-head"><h4>En combien de temps mon site est-il en ligne ?</h4><span class="plus">+</span></div><div class="q-body">Pour un site vitrine ou une petite boutique, comptez en général <b>une semaine</b> après notre échange et la validation du design. Les applications et agents IA prennent plus de temps selon le périmètre.</div></div>
-      <div class="q"><div class="q-head"><h4>Que comprend l'abonnement à 30€/mois ?</h4><span class="plus">+</span></div><div class="q-body">L'hébergement, le nom de domaine, les mises à jour de sécurité et les petites modifications de contenu. Vous demandez un changement, je le fais — pas de surcoût caché.</div></div>
-      <div class="q"><div class="q-head"><h4>Concrètement, comment marche l'agent IA téléphonique ?</h4><span class="plus">+</span></div><div class="q-body">Un numéro dédié reçoit vos appels. L'agent répond avec votre voix de marque, donne les infos, prend les rendez-vous et vous envoie un résumé par SMS. Vous restez joignable même quand vous ne pouvez pas décrocher. Disponible en option sur toutes les formules.</div></div>
-      <div class="q"><div class="q-head"><h4>Je peux faire évoluer mon site plus tard ?</h4><span class="plus">+</span></div><div class="q-body">Oui. Tout est codé sur mesure et pensé pour évoluer : on peut ajouter des pages, des fonctionnalités, du paiement ou de l'IA à tout moment.</div></div>
-      <div class="q"><div class="q-head"><h4>Et si je ne sais pas encore exactement ce que je veux ?</h4><span class="plus">+</span></div><div class="q-body">C'est le but de l'appel. On part de votre activité et de vos clients, et je vous propose la solution la plus simple et efficace pour votre objectif.</div></div>
+      <div class="q"><div class="q-head"><h4>Que se passe-t-il après les 12 mois d'engagement ?</h4><span class="plus">+</span></div><div class="q-body">Votre abonnement se reconduit <b>mois par mois</b>, sans nouvel engagement. Vous pouvez résilier avec un préavis d'un mois. Le prélèvement continue tant qu'aucune résiliation n'est reçue.</div></div>
+      <div class="q"><div class="q-head"><h4>Comment résilier ?</h4><span class="plus">+</span></div><div class="q-body">Envoyez votre demande par e-mail à CLab. La résiliation prend effet après le préavis d'un mois et, le cas échéant, à la fin de l'engagement en cours (12 mois sur la formule, 3 mois par option).</div></div>
+      <div class="q"><div class="q-head"><h4>Puis-je ajouter ou retirer une option ?</h4><span class="plus">+</span></div><div class="q-body">Vous pouvez <b>ajouter</b> une option à tout moment depuis votre espace client (engagement 3 mois par option). Le retrait d'une option se fait sur demande, avec un mois de préavis et respect de l'engagement minimum.</div></div>
+      <div class="q"><div class="q-head"><h4>Le nom de domaine m'appartient-il ?</h4><span class="plus">+</span></div><div class="q-body">Le domaine est enregistré et renouvelé par CLab tant que votre abonnement est actif. En cas de résiliation, vous pouvez demander le transfert vers votre registrar.</div></div>
+      <div class="q"><div class="q-head"><h4>Le budget publicitaire est-il inclus ?</h4><span class="plus">+</span></div><div class="q-body">Non. Les options Google Ads et Meta couvrent la <b>gestion</b> des campagnes. Vous réglez votre budget pub directement auprès de Google ou Meta.</div></div>
+      <div class="q"><div class="q-head"><h4>En combien de temps mon site est-il en ligne ?</h4><span class="plus">+</span></div><div class="q-body">Sous <b>72 heures</b> après réception de l'ensemble de vos informations (tunnel de commande + fichiers).</div></div>
     </div>
   </section>
 
@@ -658,13 +593,14 @@ footer{border-top:1px solid var(--line);padding:64px 0 30px;margin-top:40px}
     <div class="foot-grid">
       <div>
         <div class="foot-brand">CLab</div>
-        <p class="foot-tag">Agence de création de sites internet indépendante, près de Lyon. Sites, e-commerce, applications et agents IA sur mesure.</p>
+        <p class="foot-tag">Sites internet pour artisans, commerçants et PME — abonnement mensuel, livraison 72 h, sans frais de création.</p>
       </div>
-      <div class="foot-col"><h5>Navigation</h5><a href="#services">Services</a><a href="#realisations">Réalisations</a><a href="#process">Méthode</a><a href="#tarifs">Tarifs</a><a href="#faq">FAQ</a></div>
+      <div class="foot-col"><h5>Navigation</h5><a href="#services">Services</a><a href="#realisations">Réalisations</a><a href="/tarifs">Tarifs</a><a href="/commander">Commander</a><a href="/cgv">CGV</a><a href="#faq">FAQ</a></div>
       <div class="foot-col"><h5>Réalisations</h5><a href="https://locpro.digital" target="_blank" rel="noopener">LocPro</a><a href="https://crearoom.design" target="_blank" rel="noopener">Crea Room AI</a><a href="https://stalksecret.com" target="_blank" rel="noopener">StalkSecret</a></div>
-      <div class="foot-col"><h5>Contact</h5><a href="tel:+33637160713">06 37 16 07 13</a><a href="https://clab.it.com" target="_blank" rel="noopener">clab.it.com</a><a href="#reservation">Réserver un appel</a></div>
+      <div class="foot-col"><h5>Contact</h5><a href="tel:+33637160713">06 37 16 07 13</a><a href="https://clab.it.com" target="_blank" rel="noopener">clab.it.com</a><a href="/espace-client">Espace client</a></div>
     </div>
     <div class="foot-legal">
+      <a href="/cgv">CGV</a>
       <a href="/mentions-legales">Mentions légales</a>
       <a href="/politique-confidentialite">Politique de confidentialité</a>
       <a href="/politique-cookies">Politique de cookies</a>
@@ -721,6 +657,7 @@ document.getElementById('submitBtn').addEventListener('click',async()=>{
     const res=await fetch('/api/reservation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,phone,project:projStr,budget,slot:dateStr,message:msg})});
     const data=await res.json().catch(()=>({}));
     if(!res.ok)throw new Error(data.error||"Erreur lors de l'envoi.");
+    if(window.clabTrack)clabTrack('generate_lead',{});
     document.getElementById('recap').innerHTML=`<b>Nom —</b> ${esc(name)}<br><b>Projet —</b> ${esc(projStr)}<br><b>Créneau —</b> ${dateStr}<br>${budget?`<b>Budget —</b> ${esc(budget)}<br>`:''}<b>Contact —</b> ${esc(email)}${phone?' · '+esc(phone):''}`;
     document.getElementById('formBody').style.display='none';
     document.getElementById('confirm').classList.add('show');

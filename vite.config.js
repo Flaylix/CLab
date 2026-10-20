@@ -12,6 +12,12 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
+        tarifs: 'tarifs.html',
+        commander: 'commander.html',
+        cgv: 'cgv.html',
+        offre: 'offre.html',
+        espaceClient: 'espace-client.html',
+        option: 'option.html',
         mentions: 'mentions-legales.html',
         confidentialite: 'politique-confidentialite.html',
         cookies: 'politique-cookies.html',
