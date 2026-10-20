@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Commander — CLab</title>
-<meta name="robots" content="noindex" />
+<title>Commander votre site — CLab</title>
+<meta name="description" content="Commandez votre site CLab en ligne : questionnaire guidé, photos de votre établissement, abonnement dès 34,90 € HT/mois." />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/shared.css" />
 <link rel="stylesheet" href="/clab.css" />
@@ -15,7 +15,7 @@
 <div class="wrap wrap-wide shell-z">
   <div class="top">
     <a href="/" class="brand"><span class="logo-mark"></span>CLab</a>
-    <a href="/tarifs" class="back">← Modifier ma formule</a>
+    <a href="/tarifs" class="back">Tarifs & options</a>
   </div>
 
   <div id="successView" class="card" hidden>
@@ -26,93 +26,215 @@
 
   <div id="flow">
     <header class="card">
-      <p class="eyebrow">Tunnel de commande</p>
-      <h1>Composez votre abonnement</h1>
+      <p class="eyebrow">Commande en ligne · 5 minutes</p>
+      <h1>Décrivez votre projet, nous créons votre site</h1>
+      <p class="lead muted">Répondez au questionnaire, ajoutez vos photos, choisissez votre formule puis réglez l'abonnement mensuel.</p>
       <div class="steps" id="stepNav"></div>
     </header>
 
     <div class="card" style="margin-top:16px">
       <div class="step-panel" data-step="1">
-        <h2>Formule & options</h2>
-        <p class="lead muted" id="selSummary"></p>
-        <div id="upsellOpts" class="opt-group"></div>
-        <p class="price-xl">Total : <span id="stepTotal">—</span></p>
-        <button type="button" class="btn btn-white next">Continuer →</button>
+        <h2>1. Votre établissement</h2>
+        <div class="field"><label>Nom de l'entreprise *</label><input id="companyName" required autocomplete="organization" /></div>
+        <div class="field"><label>Métier / activité *</label><input id="metier" placeholder="Restaurant, plombier, salon de coiffure…" required /></div>
+        <div class="field"><label>SIRET (facultatif)</label><input id="siret" inputmode="numeric" /></div>
+        <div class="field"><label>Adresse postale</label><input id="address" autocomplete="street-address" /></div>
+        <div class="field"><label>Téléphone *</label><input id="phone" type="tel" autocomplete="tel" required /></div>
+        <div class="field"><label>E-mail *</label><input id="email" type="email" autocomplete="email" required /></div>
+        <div class="field highlight-field"><label>Lien fiche Google Business (recommandé)</label><input id="googleBusinessUrl" placeholder="https://g.page/… ou lien Maps" /></div>
+        <p class="hint" id="draftHint" hidden>Dossier enregistré — vous pouvez ajouter vos photos à l'étape suivante.</p>
+        <div class="step-actions">
+          <button type="button" class="btn btn-white next">Continuer →</button>
+        </div>
       </div>
 
       <div class="step-panel" data-step="2" hidden>
-        <h2>Votre entreprise</h2>
-        <div class="field"><label>Nom de l'entreprise *</label><input id="companyName" required /></div>
-        <div class="field"><label>Métier / activité *</label><input id="metier" placeholder="Plombier, restaurant…" /></div>
-        <div class="field"><label>SIRET</label><input id="siret" /></div>
-        <div class="field"><label>Adresse</label><input id="address" /></div>
-        <div class="field"><label>Téléphone *</label><input id="phone" type="tel" /></div>
-        <div class="field"><label>E-mail *</label><input id="email" type="email" /></div>
-        <div class="field highlight-field"><label>Lien fiche Google Business</label><input id="googleBusinessUrl" placeholder="https://g.page/…" /></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <h2>2. Ce que vous voulez sur le site</h2>
+        <div class="field"><label>En une phrase : que doit comprendre le visiteur ? *</label><textarea id="pitch" rows="2" placeholder="Ex. : Plombier disponible 7j/7 sur Lyon et alentours, devis gratuit sous 24 h." required></textarea></div>
+        <div class="field"><label>Services ou prestations à mettre en avant *</label><textarea id="services" rows="3" placeholder="Listez vos services principaux…" required></textarea></div>
+        <div class="field"><label>Zone d'intervention ou ville</label><input id="zone" placeholder="Lyon, Villeurbanne, 30 km autour de…" /></div>
+        <div class="field"><label>Horaires d'ouverture</label><input id="hours" placeholder="Lun–Ven 9h–18h, Sam 9h–12h…" /></div>
+        <div class="field"><label>Objectif principal du site</label>
+          <select id="goal">
+            <option value="contacts">Recevoir des appels et demandes de devis</option>
+            <option value="reservation">Prises de rendez-vous / réservations</option>
+            <option value="visibilite">Être visible sur Google</option>
+            <option value="commandes">Commandes en ligne / click & collect</option>
+          </select>
+        </div>
+        <div class="field"><label>Couleurs ou ambiance souhaitées</label><input id="colors" placeholder="Bleu marine et blanc, chaleureux, épuré…" /></div>
+        <div class="field"><label>Sites que vous aimez (URLs, optionnel)</label><textarea id="refs" rows="2"></textarea></div>
+        <div class="field"><label>Nom de domaine souhaité</label><input id="domain" placeholder="mon-restaurant.fr" /></div>
+        <div class="step-actions">
           <button type="button" class="btn btn-glass prev">← Retour</button>
           <button type="button" class="btn btn-white next">Continuer →</button>
         </div>
       </div>
 
       <div class="step-panel" data-step="3" hidden>
-        <h2>Votre futur site</h2>
-        <div class="field"><label>Services proposés</label><textarea id="services" rows="3"></textarea></div>
-        <div class="field"><label>Zone d'intervention</label><input id="zone" /></div>
-        <div class="field"><label>Couleurs / style souhaités</label><input id="colors" /></div>
-        <div class="field"><label>Sites que vous aimez (URLs)</label><textarea id="refs" rows="2"></textarea></div>
-        <div class="field"><label>Nom de domaine souhaité</label><input id="domain" placeholder="mon-activite.fr" /></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <h2>3. Logo & photos de l'établissement</h2>
+        <p class="muted">Ajoutez votre logo et des photos (façade, intérieur, réalisations, équipe…). Formats JPG ou PNG, 8 Mo max par fichier.</p>
+        <div class="upload-zone" id="dropZone">
+          <p><b>Glissez vos images ici</b> ou cliquez pour parcourir</p>
+          <input type="file" id="fileInput" accept="image/*" multiple hidden />
+        </div>
+        <p class="muted" id="uploadStatus"></p>
+        <div class="photo-grid" id="photoGrid"></div>
+        <div class="step-actions">
           <button type="button" class="btn btn-glass prev">← Retour</button>
           <button type="button" class="btn btn-white next">Continuer →</button>
         </div>
       </div>
 
       <div class="step-panel" data-step="4" hidden>
-        <h2>Logo & photos</h2>
-        <p class="muted">Images uniquement (max 8 Mo par fichier).</p>
-        <input type="file" id="fileInput" accept="image/*" multiple />
-        <ul id="fileList" class="check-list"></ul>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <h2>4. Formule & options</h2>
+        <p class="lead muted" id="selSummary"></p>
+        <div class="pack-pick" id="packPick"></div>
+        <div id="upsellOpts" class="opt-group"></div>
+        <p class="price-xl">Total : <span id="stepTotal">—</span></p>
+        <div class="step-actions">
           <button type="button" class="btn btn-glass prev">← Retour</button>
-          <button type="button" class="btn btn-white next">Continuer →</button>
+          <button type="button" class="btn btn-white next">Voir le récapitulatif →</button>
         </div>
       </div>
 
       <div class="step-panel" data-step="5" hidden>
-        <h2>Récapitulatif</h2>
+        <h2>5. Récapitulatif & paiement</h2>
+        <div id="recapBrief" class="opt-group recap-brief"></div>
         <div id="recapLines" class="opt-group"></div>
         <p class="price-xl">Total mensuel : <span id="recapTotal">—</span></p>
         <p class="muted" id="recapLegal"></p>
+        <p class="muted" id="recapPhotos"></p>
         <label class="opt-row"><input type="checkbox" id="cgv" /> J'accepte les <a href="/cgv" target="_blank">CGV</a>, l'engagement de 12 mois sur la formule et de 3 mois sur les options, puis la reconduction mensuelle automatique.</label>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <div class="step-actions">
           <button type="button" class="btn btn-glass prev">← Retour</button>
-          <button type="button" class="btn btn-white" id="payBtn">Passer au paiement →</button>
+          <button type="button" class="btn btn-white" id="payBtn">Passer au paiement sécurisé →</button>
         </div>
         <p class="err" id="payErr" hidden></p>
       </div>
     </div>
   </div>
 </div>
-<style>
-.highlight-field input { border-color: rgba(95,232,138,.45); }
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: .82rem; color: var(--muted); margin-bottom: 6px; }
-.field input, .field textarea { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--ff); }
-.err { color: #f87171; margin-top: 12px; }
-</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js"></script>
 <script src="/vanta-init.js"></script>
 <script src="/js/configurator.js"></script>
 <script>
 const POPULAR = ['google-business', 'pack-avis', 'reservation', 'simulateur'];
-let pricing, state = { packId: null, optionIds: [], step: 1, orderId: null, files: [] };
+let pricing;
+let state = { packId: null, optionIds: [], step: 1, orderId: null, uploadedCount: 0, pendingUpload: false };
 const q = new URLSearchParams(location.search);
+
 if (q.get('success') === '1') {
   document.getElementById('flow').hidden = true;
   document.getElementById('successView').hidden = false;
   if (window.clabTrack) clabTrack('purchase', { value: Number(q.get('total') || 0) });
+}
+
+function siteBrief() {
+  return {
+    pitch: document.getElementById('pitch')?.value.trim() || '',
+    services: document.getElementById('services')?.value.trim() || '',
+    zone: document.getElementById('zone')?.value.trim() || '',
+    hours: document.getElementById('hours')?.value.trim() || '',
+    goal: document.getElementById('goal')?.value || '',
+    colors: document.getElementById('colors')?.value.trim() || '',
+    refs: document.getElementById('refs')?.value.trim() || '',
+    domain: document.getElementById('domain')?.value.trim() || '',
+  };
+}
+
+function companyPayload() {
+  return {
+    companyName: document.getElementById('companyName').value.trim(),
+    metier: document.getElementById('metier').value.trim(),
+    siret: document.getElementById('siret').value.trim(),
+    address: document.getElementById('address').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    googleBusinessUrl: document.getElementById('googleBusinessUrl').value.trim(),
+    packId: state.packId,
+    optionIds: state.optionIds,
+    monthlyTotal: state.monthlyTotal,
+    siteBrief: siteBrief(),
+  };
+}
+
+function validateStep1() {
+  const p = companyPayload();
+  if (!p.companyName || !p.metier || !p.phone || !p.email) {
+    alert('Merci de renseigner au minimum le nom, le métier, le téléphone et l\'e-mail.');
+    return false;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) {
+    alert('Adresse e-mail invalide.');
+    return false;
+  }
+  return true;
+}
+
+function validateStep2() {
+  if (!document.getElementById('pitch').value.trim() || !document.getElementById('services').value.trim()) {
+    alert('Merci de décrire votre activité et vos services.');
+    return false;
+  }
+  return true;
+}
+
+async function ensureDraft() {
+  if (state.orderId) return state.orderId;
+  const res = await fetch('/api/orders/prepare', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(companyPayload()),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Enregistrement impossible');
+  state.orderId = data.orderId;
+  document.getElementById('draftHint').hidden = false;
+  return state.orderId;
+}
+
+async function syncDraft() {
+  if (!state.orderId) return;
+  await fetch('/api/orders/' + state.orderId, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(companyPayload()),
+  });
+}
+
+async function uploadFiles(fileList) {
+  if (!fileList?.length) return;
+  await ensureDraft();
+  const fd = new FormData();
+  [...fileList].forEach(f => fd.append('files', f));
+  const status = document.getElementById('uploadStatus');
+  status.textContent = 'Envoi en cours…';
+  state.pendingUpload = true;
+  try {
+    const res = await fetch('/api/orders/' + state.orderId + '/files', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Upload échoué');
+    state.uploadedCount += (data.files || []).length;
+    status.textContent = state.uploadedCount + ' photo(s) enregistrée(s) sur votre dossier.';
+    renderPhotoPreviews([...fileList]);
+  } catch (e) {
+    status.textContent = e.message;
+  } finally {
+    state.pendingUpload = false;
+  }
+}
+
+function renderPhotoPreviews(files) {
+  const grid = document.getElementById('photoGrid');
+  files.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const fig = document.createElement('figure');
+    fig.className = 'photo-thumb';
+    fig.innerHTML = `<img src="${url}" alt="" /><figcaption>${file.name}</figcaption>`;
+    grid.appendChild(fig);
+  });
 }
 
 async function loadPricing() {
@@ -120,14 +242,19 @@ async function loadPricing() {
   const saved = sessionStorage.getItem('clabSelection');
   if (q.get('pack')) state.packId = q.get('pack') || null;
   if (q.get('options')) state.optionIds = q.get('options').split(',').filter(Boolean);
-  if (saved && !q.get('pack') && !q.get('options')) Object.assign(state, JSON.parse(saved));
-  renderStep1();
+  if (saved && !q.get('pack') && !q.get('options')) {
+    const s = JSON.parse(saved);
+    state.packId = s.packId;
+    state.optionIds = s.optionIds || [];
+  }
+  if (q.get('start') === '1') state.step = 1;
+  renderStep4();
   renderNav();
   updateTotals();
 }
 
 function renderNav() {
-  const labels = ['Formule', 'Entreprise', 'Site', 'Fichiers', 'Récap'];
+  const labels = ['Établissement', 'Projet', 'Photos', 'Formule', 'Paiement'];
   document.getElementById('stepNav').innerHTML = labels.map((l, i) =>
     `<span class="step-dot ${state.step === i + 1 ? 'on' : ''}">${i + 1}. ${l}</span>`).join('');
   document.querySelectorAll('.step-panel').forEach(p => {
@@ -135,11 +262,25 @@ function renderNav() {
   });
 }
 
-function renderStep1() {
+function renderStep4() {
   const pack = state.packId ? pricing.packs.find(p => p.id === state.packId) : null;
   document.getElementById('selSummary').textContent = pack
-    ? `${pack.name} + options sélectionnées`
-    : `${pricing.base.name} + options à la carte`;
+    ? `Vous avez choisi le ${pack.name}.`
+    : `Formule ${pricing.base.name} — vous pouvez ajouter un pack ou des options.`;
+  document.getElementById('packPick').innerHTML =
+    `<button type="button" class="chip ${!state.packId ? 'on' : ''}" data-pack="">Essentiel seul</button>` +
+    pricing.packs.map(p => `<button type="button" class="chip ${state.packId === p.id ? 'on' : ''}" data-pack="${p.id}">${p.name}</button>`).join('');
+  document.getElementById('packPick').querySelectorAll('.chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.packId = btn.dataset.pack || null;
+      if (state.packId) {
+        const pack = pricing.packs.find(p => p.id === state.packId);
+        state.optionIds = [...(pack?.optionIds || [])];
+      }
+      renderStep4();
+      updateTotals();
+    });
+  });
   const upsell = document.getElementById('upsellOpts');
   upsell.innerHTML = '<h3>Options populaires</h3>' + pricing.categories.flatMap(c => c.options)
     .filter(o => POPULAR.includes(o.id))
@@ -151,23 +292,28 @@ function renderStep1() {
 }
 
 function updateTotals() {
+  if (!pricing) return;
   const total = ClabPricing.computeTotal(pricing, state.packId, state.optionIds);
   const sfx = ' € ' + pricing.legal.priceSuffix;
   document.getElementById('stepTotal').textContent = ClabPricing.formatPrice(total) + sfx;
   document.getElementById('recapTotal').textContent = ClabPricing.formatPrice(total) + sfx;
   document.getElementById('recapLegal').textContent =
     `${pricing.legal.vatNote} · 0 € de frais de création · Livraison ${pricing.legal.deliveryHours} h`;
-  const lines = [];
-  lines.push({ label: pricing.base.name, price: pricing.base.priceMonthly });
+  document.getElementById('recapPhotos').textContent = state.uploadedCount
+    ? `${state.uploadedCount} photo(s) jointe(s) à votre dossier.`
+    : 'Aucune photo — vous pourrez nous en envoyer par e-mail après commande.';
+  const brief = siteBrief();
+  document.getElementById('recapBrief').innerHTML = `
+    <div class="opt-row"><span><b>${companyPayload().companyName}</b> · ${companyPayload().metier}</span></div>
+    <div class="opt-row"><span>${brief.pitch || '—'}</span></div>
+    <div class="opt-row"><span>${brief.services ? brief.services.slice(0, 120) + (brief.services.length > 120 ? '…' : '') : '—'}</span></div>`;
+  const lines = [{ label: pricing.base.name, price: pricing.base.priceMonthly }];
   if (state.packId) {
     const pack = pricing.packs.find(p => p.id === state.packId);
-    if (pack) lines.push({ label: pack.name + ' (pack)', price: pack.priceMonthly - pricing.base.priceMonthly });
+    if (pack) lines.push({ label: pack.name, price: pack.priceMonthly });
   }
   const ids = new Set(state.optionIds);
-  if (state.packId) {
-    const pack = pricing.packs.find(p => p.id === state.packId);
-    pack?.optionIds.forEach(id => ids.delete(id));
-  }
+  if (state.packId) pricing.packs.find(p => p.id === state.packId)?.optionIds.forEach(id => ids.delete(id));
   pricing.categories.forEach(cat => cat.options.forEach(o => {
     if (ids.has(o.id)) lines.push({ label: o.name, price: o.priceMonthly });
   }));
@@ -176,24 +322,50 @@ function updateTotals() {
   state.monthlyTotal = total;
 }
 
-document.querySelectorAll('.next').forEach(btn => btn.addEventListener('click', () => {
-  if (state.step === 2) {
-    if (!document.getElementById('companyName').value.trim() || !document.getElementById('email').value.trim()) {
-      alert('Nom d\'entreprise et e-mail requis.'); return;
+document.querySelectorAll('.next').forEach(btn => btn.addEventListener('click', async () => {
+  try {
+    if (state.step === 1) {
+      if (!validateStep1()) return;
+      await ensureDraft();
     }
+    if (state.step === 2) {
+      if (!validateStep2()) return;
+      await syncDraft();
+    }
+    if (state.step === 3) {
+      if (state.pendingUpload) { alert('Patientez, envoi des photos en cours…'); return; }
+      await syncDraft();
+    }
+    if (state.step === 4) {
+      await syncDraft();
+      updateTotals();
+    }
+    state.step = Math.min(5, state.step + 1);
+    renderNav();
+    if (state.step === 5) updateTotals();
+  } catch (e) {
+    alert(e.message);
   }
-  state.step = Math.min(5, state.step + 1);
-  renderNav();
-  if (state.step === 5) updateTotals();
 }));
+
 document.querySelectorAll('.prev').forEach(btn => btn.addEventListener('click', () => {
   state.step = Math.max(1, state.step - 1);
   renderNav();
 }));
 
-document.getElementById('fileInput').addEventListener('change', e => {
-  state.pendingFiles = [...e.target.files];
-  document.getElementById('fileList').innerHTML = state.pendingFiles.map(f => `<li>${f.name}</li>`).join('');
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag');
+  if (e.dataTransfer.files?.length) uploadFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', e => {
+  if (e.target.files?.length) uploadFiles(e.target.files);
+  e.target.value = '';
 });
 
 document.getElementById('payBtn').addEventListener('click', async () => {
@@ -204,43 +376,20 @@ document.getElementById('payBtn').addEventListener('click', async () => {
     errEl.hidden = false;
     return;
   }
-  const body = {
-    companyName: document.getElementById('companyName').value.trim(),
-    metier: document.getElementById('metier').value.trim(),
-    siret: document.getElementById('siret').value.trim(),
-    address: document.getElementById('address').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    googleBusinessUrl: document.getElementById('googleBusinessUrl').value.trim(),
-    packId: state.packId,
-    optionIds: state.optionIds,
-    monthlyTotal: state.monthlyTotal,
-    cgvAccepted: true,
-    siteBrief: {
-      services: document.getElementById('services').value.trim(),
-      zone: document.getElementById('zone').value.trim(),
-      colors: document.getElementById('colors').value.trim(),
-      refs: document.getElementById('refs').value.trim(),
-      domain: document.getElementById('domain').value.trim(),
-    },
-  };
   const btn = document.getElementById('payBtn');
   btn.disabled = true;
   try {
+    await syncDraft();
+    const body = { ...companyPayload(), cgvAccepted: true, orderId: state.orderId };
     const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Erreur');
     state.orderId = data.orderId;
-    if (state.pendingFiles?.length) {
-      const fd = new FormData();
-      state.pendingFiles.forEach(f => fd.append('files', f));
-      await fetch('/api/orders/' + state.orderId + '/files', { method: 'POST', body: fd });
-    }
     if (data.checkoutUrl) {
       if (window.clabTrack) clabTrack('begin_checkout', { value: state.monthlyTotal });
-      location.href = data.checkoutUrl;
+      location.href = data.checkoutUrl + (data.checkoutUrl.includes('?') ? '&' : '?') + 'total=' + state.monthlyTotal;
     } else {
-      errEl.textContent = 'Paiement Stripe non configuré — commande enregistrée (#' + state.orderId + '). Nous vous recontactons.';
+      errEl.textContent = 'Paiement Stripe non configuré — dossier enregistré (#' + state.orderId + '). Nous vous recontactons sous 24 h.';
       errEl.hidden = false;
     }
   } catch (e) {
