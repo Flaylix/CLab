@@ -1,8 +1,16 @@
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let vantaEffect;
+  const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
   const initVanta = () => {
     if (typeof VANTA === 'undefined' || typeof THREE === 'undefined') return;
+    if (isMobile()) {
+      if (vantaEffect) {
+        vantaEffect.destroy();
+        vantaEffect = null;
+      }
+      return;
+    }
     if (vantaEffect) vantaEffect.destroy();
     vantaEffect = VANTA.CELLS({
       el: '#vanta-bg',
